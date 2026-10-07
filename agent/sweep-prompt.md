@@ -5,6 +5,7 @@ OWNER'S PRODUCT LINK: {{url}}
 MARKET: {{market}}
 
 TOOLS: every external call goes through Monid, the tool gateway. Key: env var MONID_API_KEY.
+  The key IS set in your environment. Use "$MONID_API_KEY" directly inside curl commands. Never print, echo, inspect or test the key (printenv, os.environ, etc.): those commands are blocked by your safety guard and waste time. If a Monid call fails, retry the call itself.
   call:  curl -s -X POST https://api.monid.ai/v1/run -H "Authorization: Bearer $MONID_API_KEY" -H "Content-Type: application/json" \
            -d '{"provider":"<provider>","endpoint":"<endpoint>","input":{...}}'
   If the reply has a runId instead of output, poll GET https://api.monid.ai/v1/runs/<runId> every 3s until status is COMPLETED.
