@@ -17,6 +17,8 @@ TOOLS: every external call goes through Monid, the tool gateway. Key: env var MO
   Use whatever Monid endpoint fits (you may also POST https://api.monid.ai/v1/discover with {"query":"..."} to find others). Keep it under 12 Monid calls in total.
   The product type can be anything (shoes, a fan, a bed, a SaaS tool, a service). Adapt your searches to it.
 
+SPEED: the owner is watching live. Run independent Monid calls in parallel (e.g. several curl commands in one shell call with & and wait). Aim to finish in under 3 minutes.
+
 STEPS
 1. Read the owner's product page. Extract: title, brand, price + currency, and the 3-5 specs that define what it competes on.
 2. Search for directly comparable products (same type, similar specs and price band, not accessories, not the owner's own listing).

@@ -29,7 +29,7 @@ async function upsertWatch(type, url, market) {
 const setStep = (id, step) => db.query("update sweeps set step = $2 where id = $1", [id, step]);
 
 // --- Agent37: one agent turn does the research (Monid tools + memory in the instance's files) ---
-async function runAgent(w) {
+async function runAgent(w, sweepId) {
   const src = w.sources[0];
   const prompt = fs.readFileSync(path.join(__dirname, "agent", "sweep-prompt.md"), "utf8")
     .replaceAll("{{type}}", w.name)
@@ -39,12 +39,50 @@ async function runAgent(w) {
   const res = await fetch(`https://${process.env.AGENT37_INSTANCE_ID}.agent37.app/v1/responses`, {
     method: "POST",
     headers: { "X-Agent37-Key": process.env.AGENT37_API_KEY, "Content-Type": "application/json" },
-    body: JSON.stringify({ input: prompt }),
+    body: JSON.stringify({ input: prompt, stream: true }),
     signal: AbortSignal.timeout(15 * 60 * 1000),
   });
-  const body = await res.json();
-  if (body.status === "failed" || !body.output_text) throw new Error(body.error?.message || `agent returned ${res.status}`);
-  return parseJson(body.output_text);
+  if (!res.ok) throw new Error(`agent returned ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  // Read the SSE stream: log each tool call live (shown in the UI), collect the final text.
+  const dec = new TextDecoder();
+  let buf = "", text = "", error = null;
+  for await (const chunk of res.body) {
+    buf += dec.decode(chunk, { stream: true });
+    let i;
+    while ((i = buf.indexOf("\n\n")) >= 0) {
+      const frame = buf.slice(0, i); buf = buf.slice(i + 2);
+      const ev = frame.match(/^event: (.+)$/m)?.[1];
+      const raw = frame.split("\n").filter((l) => l.startsWith("data:")).map((l) => l.slice(5).trim()).join("\n");
+      let data = {}; try { data = JSON.parse(raw); } catch {}
+      if (ev === "response.output_text.delta") text += data.text || "";
+      else if (ev === "response.tool_call.started") await logLine(sweepId, describe(data));
+      else if (ev === "response.tool_call.failed") await logLine(sweepId, `A ${data.tool} call failed; the agent retries`);
+      else if (ev === "response.completed" && data.output_text) text = data.output_text;
+      else if (ev === "response.failed" || ev === "error") error = data.error?.message || data.message || "agent failed";
+    }
+  }
+  if (!text.trim()) throw new Error(error || "agent returned no answer");
+  return parseJson(text);
+}
+
+// Turn a raw tool call into a line a business owner understands.
+function describe({ tool, label, arguments: args }) {
+  const s = JSON.stringify(args || {}) + " " + (label || "");
+  const q = s.match(/\\?"(?:query|q|keyword|search_term)\\?"\s*:\s*\\?"([^"\\]{2,80})/)?.[1];
+  const u = s.match(/https?:\/\/(?!api\.monid|web\.archive)[^\s"'\\]+/)?.[0];
+  if (/google\/shopping/.test(s)) return `Searching Google Shopping${q ? `: "${q}"` : ""}`;
+  if (/amazon\//.test(s)) return `Searching Amazon${q ? `: "${q}"` : ""}`;
+  if (/web\/search/.test(s)) return `Searching the web${q ? `: "${q}"` : ""}`;
+  if (/web\/scrape|scrape\/markdown/.test(s)) return `Reading a page${u ? `: ${u.slice(0, 70)}` : ""}`;
+  if (/v1\/inspect/.test(s)) return "Checking how a Monid tool works";
+  if (/v1\/discover/.test(s)) return `Finding the right Monid tool${q ? ` for "${q}"` : ""}`;
+  if (/v1\/runs\//.test(s)) return "Waiting for a Monid result";
+  if (/rivalradar\//.test(s)) return /cat |read|load|test -f|\bls\b/.test(s) ? "Checking its memory of the last sweep" : "Saving this sweep to memory";
+  return `${tool}${label ? `: ${String(label).slice(0, 70)}` : ""}`;
+}
+
+async function logLine(sweepId, line) {
+  await db.query("update sweeps set log = log || $2::jsonb where id = $1", [sweepId, JSON.stringify([{ t: new Date().toISOString(), line }])]);
 }
 
 function parseJson(text) {
@@ -81,7 +119,7 @@ async function judge(w, mine, change) {
 async function sweep(sweepId, w) {
   try {
     await setStep(sweepId, "agent");
-    const out = await runAgent(w);
+    const out = await runAgent(w, sweepId);
     const checked = (out.competitors || []).length;
     await db.query("update sweeps set raw = $2, sources_checked = $3, step = 'judge' where id = $1", [sweepId, out, checked]);
     await Promise.all((out.changes || []).map(async (c) => {
@@ -132,7 +170,7 @@ app.get("/api/watches/:id", async (req, res) => {
   try {
     const w = (await db.query("select * from competitors where id = $1", [req.params.id])).rows[0];
     if (!w) return res.status(404).json({ error: "not found" });
-    const sweeps = (await db.query("select id, status, step, started_at, finished_at, sources_checked, error from sweeps where competitor_id = $1 order by id desc limit 10", [w.id])).rows;
+    const sweeps = (await db.query("select id, status, step, started_at, finished_at, sources_checked, error, log from sweeps where competitor_id = $1 order by id desc limit 10", [w.id])).rows;
     const lastDone = (await db.query("select raw from sweeps where competitor_id = $1 and status = 'done' order by id desc limit 1", [w.id])).rows[0];
     const signals = (await db.query(
       `select s.*, coalesce(json_agg(a order by a.id) filter (where a.id is not null), '[]') as actions
@@ -157,5 +195,8 @@ app.post("/api/actions/:id/approve", async (req, res) => {
   const { rows } = await db.query("update actions set status = 'approved' where id = $1 returning *", [req.params.id]);
   res.json(rows[0] || {});
 });
+
+// A sweep cut off by a restart can't finish; mark it so the UI doesn't spin forever.
+db.query("update sweeps set status = 'failed', error = 'Interrupted by a server restart. Run the sweep again.', finished_at = now() where status = 'running'").catch(() => {});
 
 app.listen(process.env.PORT || 3000, () => console.log(`Rivalradar on http://localhost:${process.env.PORT || 3000}`));

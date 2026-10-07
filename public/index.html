@@ -65,6 +65,9 @@ td.prod small{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
 .steps li.ok{color:var(--text)}.steps li.ok i{background:var(--good);border-color:var(--good)}
 .steps small{color:var(--faint);margin-left:4px}
 @keyframes spin{to{transform:rotate(360deg)}}
+.log{list-style:none;margin:0 0 14px;padding:10px 14px;background:var(--sunk);border-radius:12px;font:12.5px/1.6 "JetBrains Mono",monospace;color:var(--muted);max-height:220px;overflow:auto}
+.log:empty{display:none}.log li{display:flex;gap:10px}.log li span{color:var(--faint);flex:none}.log li:last-child{color:var(--text)}
+.log li.live:last-child::after{content:"▍";color:var(--clay);animation:blink 1s steps(2) infinite}@keyframes blink{50%{opacity:0}}
 #sweepinfo{font-size:12.5px;color:var(--muted);margin:-8px 0 10px}
 .feed{display:flex;flex-direction:column;gap:14px}
 .sig{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;animation:in .45s ease}
@@ -138,9 +141,7 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
   <div id="workspace">
     <div class="floor" id="floor">
       <div class="fl-bar"><button id="v-over">◎ Overview</button><button id="v-top">▦ Top view</button><button id="v-spin">⟳ Auto-orbit</button></div>
-      <div class="fl-note" id="fl-note">Your market, in 3D<small>Pedestal height = price · colour = threat · click a rival</small></div>
-      <div class="fl-tip">Drag to orbit · scroll to zoom · right-drag to pan</div>
-      <div class="fl-brand">The market floor</div>
+      <div class="fl-note" id="fl-note" style="display:none"></div>
     </div>
     <p class="summary" id="summary" style="display:none"></p>
     <div class="stats">
@@ -172,6 +173,7 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
           <li data-k="done"><i></i><div>Saved to Supabase, ready for you</div></li>
         </ul>
         <div id="sweepinfo"></div>
+        <ol class="log" id="log"></ol>
         <div style="margin:0 0 16px"><button class="btn2" id="again">Run sweep again</button></div>
         <div class="feed" id="feed"></div>
       </section>
@@ -226,6 +228,9 @@ function render() {
       : `${running ? "Running" : "Last sweep"} · ${Math.floor(secs / 60)}m ${secs % 60}s · ${stats.sweeps} completed sweep${stats.sweeps === 1 ? "" : "s"}`;
   }
 
+  const lg = (s0 && s0.log) || [];
+  $("log").innerHTML = lg.map((x) => `<li class="${running ? "live" : ""}"><span>+${Math.max(0, Math.round((new Date(x.t) - new Date(s0.started_at)) / 1000))}s</span>${esc(x.line)}</li>`).join("");
+  if (running) $("log").scrollTop = 1e6;
   if (market && market.my_product) {
     const m = market.my_product, mp = Number(m.price);
     $("mine").innerHTML = `<div class="mine"><div><div class="sub" style="margin:0">Your product · ${esc(watch.name)}</div><h3>${esc(m.title)}</h3>
@@ -381,7 +386,7 @@ const floor = (function () {
       g.userData = { c, ph, item }; scene.add(g); peds.push(g);
       const dot = c.threat === "high" ? "#b5473a" : c.threat === "medium" ? "#a8741a" : "#7d8a70";
       label(`<span class="dot" style="background:${dot}"></span><b>#${esc(c.rank)}</b> ${esc((c.brand || c.title || "").slice(0, 22))}<i>${money(c.price, c.currency)}</i>`, "", g, ph + 0.95, () => {
-        $("fl-note").innerHTML = `${esc(c.title)}<small>${money(c.price, c.currency)}${c.rating ? ` · ${esc(c.rating)}★` : ""} · ${esc(c.threat)} threat · ${esc(c.why || "")}</small>${c.url ? `<small><a href="${esc(c.url)}" target="_blank" rel="noopener">Open listing ↗</a></small>` : ""}`;
+        $("fl-note").style.display = "block"; $("fl-note").innerHTML = `${esc(c.title)}<small>${money(c.price, c.currency)}${c.rating ? ` · ${esc(c.rating)}★` : ""} · ${esc(c.threat)} threat · ${esc(c.why || "")}</small>${c.url ? `<small><a href="${esc(c.url)}" target="_blank" rel="noopener">Open listing ↗</a></small>` : ""}`;
       });
     });
   }

@@ -38,3 +38,4 @@ alter table competitors enable row level security;
 alter table sweeps enable row level security;
 alter table signals enable row level security;
 alter table actions enable row level security;
+alter table sweeps add column if not exists log jsonb not null default '[]';
