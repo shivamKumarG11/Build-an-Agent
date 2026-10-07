@@ -27,7 +27,7 @@ select{font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line)
 button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid transparent;padding:9px 16px;font-weight:500}
 .btn{background:var(--clay);color:#fff}.btn:hover{background:var(--clay-d)}.btn:disabled{opacity:.6;cursor:progress}
 .btn2{background:var(--surface);border-color:var(--line);color:var(--text);font-size:13px;padding:6px 12px}.btn2:hover{background:var(--sunk)}.btn2:disabled{opacity:.6}
-.hero{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;padding:44px 0 30px}
+.hero{display:grid;grid-template-columns:1fr 210px;gap:32px;align-items:center;padding:44px 0 30px}
 .hero h1{font:500 44px/1.12 "Source Serif 4",serif;letter-spacing:-.02em;margin:0 0 14px}
 .hero h1 em{font-style:italic;color:var(--clay-d)}
 .hero p{color:var(--muted);font-size:17px;max-width:680px;margin:0}
@@ -91,6 +91,16 @@ td.prod small{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
 .empty{border:1px dashed var(--line);border-radius:16px;padding:32px 20px;text-align:center;color:var(--muted)}
 .err{color:var(--bad)}
 #workspace{display:none}
+.scope{position:relative;width:200px;height:200px;border-radius:50%;justify-self:end;align-self:center;overflow:hidden;
+  background:radial-gradient(circle,transparent 0 23%,var(--clay-soft) 23.5% 24%,transparent 24.5% 47%,var(--clay-soft) 47.5% 48%,transparent 48.5% 71%,var(--clay-soft) 71.5% 72%,transparent 72.5%),
+  linear-gradient(var(--clay-soft),var(--clay-soft)) center/1px 100% no-repeat,linear-gradient(var(--clay-soft),var(--clay-soft)) center/100% 1px no-repeat,var(--surface);
+  border:2px solid var(--clay);box-shadow:0 0 0 6px var(--clay-soft),inset 0 0 30px #d9775722}
+.scope .beam{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#d9775700 0deg,#d9775700 300deg,#d9775766 360deg);animation:sweep 3s linear infinite}
+.scope b{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--clay);box-shadow:0 0 0 4px var(--clay-soft)}
+.scope i{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--clay-d);opacity:.15;animation:blip 3s linear infinite}
+@keyframes sweep{to{transform:rotate(360deg)}}
+@keyframes blip{0%{opacity:1;transform:scale(1.6)}35%{opacity:.35;transform:scale(1)}100%{opacity:.15}}
+@media(max-width:900px){.scope{display:none}}
 .floor{position:relative;height:480px;border-radius:20px;overflow:hidden;margin-bottom:28px;background:linear-gradient(180deg,#eef0e8,#e4e8dd);border:1px solid var(--line)}
 .floor canvas{display:block}
 .fl-bar{position:absolute;top:14px;left:14px;display:flex;gap:4px;background:#fbfaf3e6;border:1px solid #dfe3d4;border-radius:14px;padding:6px;box-shadow:0 6px 20px #4a55301a}
@@ -151,8 +161,9 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
         <input id="f-market" placeholder="Market (US, India…)">
         <button class="btn" id="go" type="submit">Start watching</button>
       </form>
-      <div class="hint">Try: <a data-ex='["running shoes","https://www.allbirds.com/products/mens-wool-runners","US"]'>running shoes</a> · <a data-ex='["ceiling fan","https://www.atomberg.com/atomberg-renesa-ceiling-fan","India"]'>ceiling fan</a> · <a data-ex='["mattress","https://www.casper.com/mattresses/casper-original/","US"]'>mattress</a></div>
+      <div class="hint" style="grid-column:1">Try: <a data-ex='["running shoes","https://www.allbirds.com/products/mens-wool-runners","US"]'>running shoes</a> · <a data-ex='["ceiling fan","https://www.atomberg.com/atomberg-renesa-ceiling-fan","India"]'>ceiling fan</a> · <a data-ex='["mattress","https://www.casper.com/mattresses/casper-original/","US"]'>mattress</a></div>
     </div>
+    <div class="scope" aria-hidden="true"><div class="beam"></div><i style="left:68%;top:30%;animation-delay:0.35s"></i><i style="left:30%;top:36%;animation-delay:2.54s"></i><i style="left:72%;top:70%;animation-delay:1.10s"></i><i style="left:40%;top:74%;animation-delay:1.69s"></i><i style="left:55%;top:18%;animation-delay:0.07s"></i><i style="left:22%;top:58%;animation-delay:2.12s"></i><b></b></div>
   </section>
 
   <div id="workspace">
@@ -187,7 +198,6 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
           <li data-k="done"><i></i><div>Saved to Supabase, ready for you</div></li>
         </ul>
         <div id="sweepinfo"></div>
-        <ol class="log" id="log"></ol>
         <div style="margin:0 0 16px"><button class="btn2" id="again">Run sweep again</button></div>
         
       </section>
@@ -244,9 +254,6 @@ function render() {
       : `${running ? "Running" : "Last sweep"} · ${Math.floor(secs / 60)}m ${secs % 60}s · ${stats.sweeps} completed sweep${stats.sweeps === 1 ? "" : "s"}`;
   }
 
-  const lg = (s0 && s0.log) || [];
-  $("log").innerHTML = lg.map((x) => `<li class="${running ? "live" : ""}"><span>+${Math.max(0, Math.round((new Date(x.t) - new Date(s0.started_at)) / 1000))}s</span>${esc(x.line)}</li>`).join("");
-  if (running) $("log").scrollTop = 1e6;
   if (market && market.my_product) {
     const m = market.my_product, mp = Number(m.price);
     $("mine").innerHTML = `<div class="mine"><div><div class="sub" style="margin:0">Your product · ${esc(watch.name)}</div><h3>${esc(m.title)}</h3>
