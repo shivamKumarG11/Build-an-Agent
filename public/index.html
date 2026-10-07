@@ -37,11 +37,13 @@ button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid transpare
 .form input:focus{outline:2px solid var(--clay-soft);border-color:var(--clay)}
 .hint{font-size:12.5px;color:var(--faint);margin-top:8px}.hint a{cursor:pointer}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:36px}
-.stat{background:var(--surface);padding:18px 20px}
+.stat{background:#dbe8f7;color:#1d2b3d;padding:18px 20px}
+.stats{background:#b9cfe8!important;border-color:#b9cfe8!important}
+.stat span{color:#4a5f78!important}.stat.hl b{color:#c6613f}
 .stat b{display:block;font:500 30px "Source Serif 4",serif;font-variant-numeric:tabular-nums}
 .stat span{color:var(--muted);font-size:13px}
 .stat.hl b{color:var(--clay-d)}
-.cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+.cols{display:grid;grid-template-columns:1fr;gap:36px;align-items:start}
 h2.sec{font:500 24px "Source Serif 4",serif;margin:0 0 4px}
 .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
@@ -158,7 +160,6 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
       <div class="fl-bar"><button id="v-over">◎ Overview</button><button id="v-top">▦ Top view</button><button id="v-spin">⟳ Auto-orbit</button></div>
       <div class="fl-note" id="fl-note" style="display:none"></div>
     </div>
-    <p class="summary" id="summary" style="display:none"></p>
     <div class="stats">
       <div class="stat"><b id="s-comp">–</b><span>competitors found and tracked</span></div>
       <div class="stat"><b id="s-under">–</b><span>rivals cheaper than you</span></div>
@@ -299,9 +300,8 @@ loadWatches().then(loadWatch); setInterval(loadWatch, 3000);
 
 function renderInsights(market) {
   const ins = market && market.insights;
-  if (!ins) { $("ins").style.display = "none"; $("summary").style.display = "none"; return; }
+  if (!ins) { $("ins").style.display = "none"; return; }
   $("ins").style.display = "grid";
-  if (ins.summary) { $("summary").style.display = "block"; $("summary").textContent = ins.summary; } else $("summary").style.display = "none";
   const b = ins.price_band || {}, m = market.my_product || {}, mp = Number(m.price);
   const comps = (market.competitors || []).filter((c) => Number(c.price) > 0);
   const ps = comps.map((c) => Number(c.price)).concat(mp ? [mp] : []);
