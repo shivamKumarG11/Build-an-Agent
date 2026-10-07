@@ -197,6 +197,6 @@ app.post("/api/actions/:id/approve", async (req, res) => {
 });
 
 // A sweep cut off by a restart can't finish; mark it so the UI doesn't spin forever.
-db.query("update sweeps set status = 'failed', error = 'Interrupted by a server restart. Run the sweep again.', finished_at = now() where status = 'running'").catch(() => {});
+db.query("update sweeps set status = 'failed', error = 'Interrupted by a server restart. Run the sweep again.', finished_at = now() where status = 'running' and started_at < now() - interval '15 minutes'").catch(() => {});
 
 app.listen(process.env.PORT || 3000, () => console.log(`Rivalradar on http://localhost:${process.env.PORT || 3000}`));
