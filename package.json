@@ -1,0 +1,25 @@
+{
+  "name": "build-an-agent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivamKumarG11/Build-an-Agent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivamKumarG11/Build-an-Agent/issues"
+  },
+  "homepage": "https://github.com/shivamKumarG11/Build-an-Agent#readme",
+  "dependencies": {
+    "dotenv": "^18.0.6",
+    "express": "^5.2.1",
+    "pg": "^8.23.1"
+  }
+}
