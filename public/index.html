@@ -103,6 +103,12 @@ td.prod small{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
 .lbl.me{background:#d97757;color:#fff;border-color:#c6613f}.lbl.me i{color:#fde7dd}
 .lbl.agent{background:#2f3529;color:#f3f1e6;border-color:#2f3529;font-size:11.5px}
 .ins{display:block;margin-bottom:28px}
+.ins .panel{background:#fbefc4;border-color:#f0dc9a;color:#2b2a24}
+.ins .panel h3{color:#8a6d1f!important}
+.ins .axis .line{background:linear-gradient(90deg,#cfe3c4,#f5e3a8 50%,#f2c6bb)}
+.ins .axis .tl{color:#6b5d35}.ins .axis .tick{background:#a8925a}
+.ins .axis .dot{border-color:#fbefc4}.ins .axis .you em{border-color:#fbefc4;box-shadow:0 0 0 4px #f6d7c8}
+.ins .verdict2{color:#2b2a24}.ins .verdict2 b{color:#b5532f}
 .axis{position:relative;height:120px;margin:8px 16px 0}
 .axis .line{position:absolute;left:0;right:0;top:62px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--good-soft),var(--sunk) 50%,var(--bad-soft))}
 .axis .tick{position:absolute;top:56px;width:2px;height:16px;background:var(--faint);transform:translateX(-50%)}
@@ -345,12 +351,6 @@ const floor = (function () {
   const ring = new THREE.Mesh(new THREE.RingGeometry(6.2, 6.8, 96), M(0xcfdcc4)); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.01; ring.receiveShadow = true; scene.add(ring);
   const wall = new THREE.Mesh(new THREE.BoxGeometry(30, 2.2, 0.25), M(0xe8e7df)); wall.position.set(0, 1.1, -12); wall.receiveShadow = true; scene.add(wall);
   const wall2 = new THREE.Mesh(new THREE.BoxGeometry(0.25, 2.2, 24), M(0xe8e7df)); wall2.position.set(-15, 1.1, 0); scene.add(wall2);
-  // a few plants for personality
-  [[-13.5, -10.5], [13.5, -10.5], [-13.5, 10.3], [13.5, 10.3]].forEach(([x, z]) => {
-    const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.22, 0.45, 16), M(0xd9cbb0)); pot.position.set(x, 0.22, z); pot.castShadow = true; scene.add(pot);
-    for (let i = 0; i < 4; i++) { const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.9, 8), M(0x8fb39a)); leaf.position.set(x + Math.cos(i * 1.6) * 0.1, 0.85, z + Math.sin(i * 1.6) * 0.1); leaf.rotation.set(Math.cos(i) * 0.4, 0, Math.sin(i) * 0.4); scene.add(leaf); }
-  });
-
   // the agent: a small friendly robot
   const agent = new THREE.Group();
   const body = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 0.6, 20), M(0x8ec5e8)); body.position.y = 0.55; body.castShadow = true; agent.add(body);
