@@ -171,8 +171,8 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
         <div class="panel" id="comp"></div>
       </section>
       <section>
-        <h2 class="sec">What to do</h2>
-        <p class="sub">Each sweep runs on your own Agent37 agent. It searches the market through Monid and compares with its memory of the last sweep. OpenAI drafts your next move.</p>
+        <h2 class="sec">Agent activity</h2>
+        <p class="sub">Each sweep runs on your own Agent37 agent. It searches the market through Monid and compares with its memory of the last sweep. OpenAI sums up your next move.</p>
         <ul class="steps" id="steps">
           <li data-k="agent"><i></i><div>Agent wakes on Agent37 <small>your own always-on instance</small></div></li>
           <li data-k="agent"><i></i><div>Reads your product page through Monid</div></li>
@@ -183,7 +183,7 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:v
         <div id="sweepinfo"></div>
         <ol class="log" id="log"></ol>
         <div style="margin:0 0 16px"><button class="btn2" id="again">Run sweep again</button></div>
-        <div class="feed" id="feed"></div>
+        
       </section>
     </div>
   </div>
@@ -265,13 +265,7 @@ function render() {
 
   renderInsights(market);
   floor.update(watch, market, running);
-  $("feed").innerHTML = signals.length ? signals.map(card).join("") : `<div class="empty">${running ? "Findings appear here when the sweep finishes (usually 2–4 minutes)." : "No findings yet."}</div>`;
-  signals.forEach((s) => { if (!seen.has(s.id)) { seen.add(s.id); blips.push(s.threat); } });
-  document.querySelectorAll("[data-approve]").forEach((b) => (b.onclick = async () => {
-    await fetch(`/api/actions/${b.dataset.approve}/approve`, { method: "POST" });
-    try { await navigator.clipboard.writeText(b.dataset.text); } catch {}
-    loadWatch();
-  }));
+
 }
 
 function card(s) {
