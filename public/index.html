@@ -17,46 +17,47 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--clay-d)}
-.serif{font-family:"Source Serif 4",Georgia,serif}
 .wrap{max-width:1200px;margin:0 auto;padding:0 20px 80px}
 nav{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
 .logo{display:flex;align-items:center;gap:10px;font:600 21px "Source Serif 4",serif;letter-spacing:-.01em}
 .logo svg{width:26px;height:26px}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 label.us{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
-select{font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text)}
+select{font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);max-width:320px}
 button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid transparent;padding:9px 16px;font-weight:500}
 .btn{background:var(--clay);color:#fff}.btn:hover{background:var(--clay-d)}.btn:disabled{opacity:.6;cursor:progress}
-.btn2{background:var(--surface);border-color:var(--line);color:var(--text);font-size:13px;padding:6px 12px}.btn2:hover{background:var(--sunk)}
-.hero{display:grid;grid-template-columns:1fr 220px;gap:32px;align-items:center;padding:44px 0 28px}
+.btn2{background:var(--surface);border-color:var(--line);color:var(--text);font-size:13px;padding:6px 12px}.btn2:hover{background:var(--sunk)}.btn2:disabled{opacity:.6}
+.hero{display:grid;grid-template-columns:1fr 220px;gap:32px;align-items:center;padding:44px 0 30px}
 .hero h1{font:500 44px/1.12 "Source Serif 4",serif;letter-spacing:-.02em;margin:0 0 14px}
 .hero h1 em{font-style:italic;color:var(--clay-d)}
-.hero p{color:var(--muted);font-size:17px;max-width:640px;margin:0}
+.hero p{color:var(--muted);font-size:17px;max-width:680px;margin:0}
 #radar{width:220px;height:220px}
+.form{display:grid;grid-template-columns:1fr 1.6fr .7fr auto;gap:10px;margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px}
+.form input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);min-width:0}
+.form input:focus{outline:2px solid var(--clay-soft);border-color:var(--clay)}
+.hint{font-size:12.5px;color:var(--faint);margin-top:8px}.hint a{cursor:pointer}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:36px}
 .stat{background:var(--surface);padding:18px 20px}
 .stat b{display:block;font:500 30px "Source Serif 4",serif;font-variant-numeric:tabular-nums}
 .stat span{color:var(--muted);font-size:13px}
 .stat.hl b{color:var(--clay-d)}
-.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
 h2.sec{font:500 24px "Source Serif 4",serif;margin:0 0 4px}
 .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
-.board{display:flex;flex-direction:column;gap:16px}
-.model{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
-.model h3{margin:0 0 2px;font:600 15px Inter}
-.model .verdict{font-size:13px;color:var(--muted);margin-bottom:10px}
-.verdict b.bad{color:var(--bad)}.verdict b.good{color:var(--good)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.mine{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px;display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap}
+.mine h3{margin:2px 0 0;font:500 20px "Source Serif 4",serif}.mine .price{font:500 28px "Source Serif 4",serif;color:var(--clay-d);white-space:nowrap}
+.specs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;font-weight:500;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:4px 6px}
-td{padding:6px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
-td.num{text-align:right;font-family:"JetBrains Mono",monospace;font-size:12.5px}
-tr.me td{background:var(--clay-soft);font-weight:600}
-tr.me td:first-child{border-radius:8px 0 0 8px}tr.me td:last-child{border-radius:0 8px 8px 0}
-.bar{height:6px;border-radius:3px;background:var(--sunk);position:relative;min-width:60px}
-.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--faint)}
-tr.me .bar i{background:var(--clay)}tr.cheap .bar i{background:var(--good)}
-.pill{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
-.p-me{background:var(--clay);color:#fff}.p-cheap{background:var(--good-soft);color:var(--good)}.p-down{background:var(--warn-soft);color:var(--warn)}
+td{padding:8px 6px;border-top:1px solid var(--line);vertical-align:top}
+td.num{text-align:right;font-family:"JetBrains Mono",monospace;font-size:12.5px;white-space:nowrap}
+.rank{font:500 15px "Source Serif 4",serif;color:var(--faint);width:22px}
+td.prod a{color:var(--text);text-decoration:none;font-weight:500}td.prod a:hover{text-decoration:underline}
+td.prod small{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
+.gap-neg{color:var(--bad);font-weight:600}.gap-pos{color:var(--good);font-weight:600}
+.pill{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 8px;border-radius:999px}
+.p-high{background:var(--bad-soft);color:var(--bad)}.p-medium{background:var(--warn-soft);color:var(--warn)}.p-low{background:var(--sunk);color:var(--muted)}
 .steps{list-style:none;margin:0 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:16px}
 .steps li{display:flex;gap:10px;padding:5px 0;color:var(--faint);font-size:13.5px}
 .steps li i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:2px}
@@ -64,7 +65,7 @@ tr.me .bar i{background:var(--clay)}tr.cheap .bar i{background:var(--good)}
 .steps li.ok{color:var(--text)}.steps li.ok i{background:var(--good);border-color:var(--good)}
 .steps small{color:var(--faint);margin-left:4px}
 @keyframes spin{to{transform:rotate(360deg)}}
-#sweepinfo{font-size:12.5px;color:var(--muted);margin:-8px 0 18px}
+#sweepinfo{font-size:12.5px;color:var(--muted);margin:-8px 0 10px}
 .feed{display:flex;flex-direction:column;gap:14px}
 .sig{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;animation:in .45s ease}
 .sig.high{border-left:4px solid var(--bad)}.sig.medium{border-left:4px solid var(--warn)}.sig.low{border-left:4px solid var(--faint)}
@@ -82,149 +83,346 @@ tr.me .bar i{background:var(--clay)}tr.cheap .bar i{background:var(--good)}
 .act .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:4px}
 .act pre{margin:0;white-space:pre-wrap;font:13.5px/1.5 Inter}
 .act.approved{border-color:var(--good)}.act.approved .hd span{color:var(--good)}
-.empty{border:1px dashed var(--line);border-radius:16px;padding:36px 20px;text-align:center;color:var(--muted)}
+.empty{border:1px dashed var(--line);border-radius:16px;padding:32px 20px;text-align:center;color:var(--muted)}
 .err{color:var(--bad)}
+#workspace{display:none}
+.floor{position:relative;height:480px;border-radius:20px;overflow:hidden;margin-bottom:28px;background:linear-gradient(180deg,#eef0e8,#e4e8dd);border:1px solid var(--line)}
+.floor canvas{display:block}
+.fl-bar{position:absolute;top:14px;left:14px;display:flex;gap:4px;background:#fbfaf3e6;border:1px solid #dfe3d4;border-radius:14px;padding:6px;box-shadow:0 6px 20px #4a55301a}
+.fl-bar button{background:none;border:0;color:#3f4a36;font-size:13px;padding:6px 10px;border-radius:9px}.fl-bar button:hover{background:#eef0e4}
+.fl-note{position:absolute;top:14px;right:14px;max-width:300px;background:#fbf7ec;border:1px solid #eadfc6;border-radius:14px;padding:10px 14px;font-size:13px;color:#4a4636;box-shadow:0 6px 20px #4a55301a}
+.fl-note small{display:block;color:#8b8670;margin-top:2px}
+.fl-tip{position:absolute;left:14px;bottom:12px;font-size:11.5px;color:#7d826f}
+.fl-brand{position:absolute;right:14px;bottom:12px;font-size:11.5px;color:#7d826f}
+.lbl{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;background:#fffdf7f2;border:1px solid #d9dccd;border-radius:9px;padding:3px 9px;font-size:12px;color:#2f3529;pointer-events:auto;cursor:pointer;box-shadow:0 2px 8px #3a42281a}
+.lbl b{font-weight:600}.lbl i{font-style:normal;color:#7d826f;margin-left:6px;font-family:"JetBrains Mono",monospace;font-size:11px}
+.lbl .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.lbl.me{background:#d97757;color:#fff;border-color:#c6613f}.lbl.me i{color:#fde7dd}
+.lbl.agent{background:#2f3529;color:#f3f1e6;border-color:#2f3529;font-size:11.5px}
+.ins{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.ins .panel h3{margin:0 0 8px;font:600 12px Inter;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}
+.band{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--good-soft),var(--warn-soft),var(--bad-soft));margin:26px 0 8px}
+.band i{position:absolute;top:-6px;width:3px;height:22px;background:var(--clay);border-radius:2px}
+.band span{position:absolute;top:-24px;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--clay-d);white-space:nowrap}
+.bandl{display:flex;justify-content:space-between;font:12px "JetBrains Mono",monospace;color:var(--muted)}
+.ins ul{margin:0;padding-left:18px;font-size:13.5px}.ins li{margin:4px 0}
+.ins .q{font-size:13px;border-left:3px solid var(--line);padding-left:8px;margin:6px 0;color:var(--muted)}
+.summary{font:400 19px/1.45 "Source Serif 4",serif;margin:0 0 18px;padding:16px 20px;background:var(--clay-soft);border-radius:16px}
+@media(max-width:900px){.ins{grid-template-columns:1fr}.floor{height:380px}.fl-note{display:none}}
 footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-@media(max-width:900px){.cols{grid-template-columns:1fr}.hero{grid-template-columns:1fr}#radar{display:none}.hero h1{font-size:34px}.stats{grid-template-columns:repeat(2,1fr)}.diff{grid-template-columns:1fr}}
+@media(max-width:900px){.cols{grid-template-columns:1fr}.hero{grid-template-columns:1fr}#radar{display:none}.hero h1{font-size:34px}.stats{grid-template-columns:repeat(2,1fr)}.diff{grid-template-columns:1fr}.form{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav>
     <div class="logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#d97757" stroke-width="2"/><circle cx="16" cy="16" r="8" fill="none" stroke="#d97757" stroke-width="2" opacity=".5"/><path d="M16 16 L28 10" stroke="#d97757" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2.5" fill="#d97757"/></svg>Rivalradar</div>
-    <div class="nav-r">
-      <label class="us">You are <select id="us"></select></label>
-      <button class="btn" id="go">Run sweep</button>
-    </div>
+    <div class="nav-r"><label class="us">Watching <select id="watches"><option value="">New product…</option></select></label></div>
   </nav>
 
   <section class="hero">
     <div>
-      <h1 class="serif">Inference prices change every week.<br><em>Your agent watches them for you.</em></h1>
-      <p>Rivalradar tracks every provider serving the models you sell, notices when a rival undercuts you or stumbles, and drafts the alert and the price move for you to approve.</p>
+      <h1>Tell us what you sell.<br><em>Your agent finds your rivals and watches their prices.</em></h1>
+      <p>Shoes, a ceiling fan, a mattress: anything. Paste your product's link and Rivalradar's agent reads it, finds the closest competing products, ranks them by threat, and tells you what to do about each one.</p>
+      <form class="form" id="form">
+        <input id="f-type" placeholder="What is it? e.g. running shoes" required>
+        <input id="f-url" placeholder="Link to your product page" type="url" required>
+        <input id="f-market" placeholder="Market (US, India…)">
+        <button class="btn" id="go" type="submit">Start watching</button>
+      </form>
+      <div class="hint">Try: <a data-ex='["running shoes","https://www.allbirds.com/products/mens-wool-runners","US"]'>running shoes</a> · <a data-ex='["ceiling fan","https://www.atomberg.com/atomberg-renesa-ceiling-fan","India"]'>ceiling fan</a> · <a data-ex='["mattress","https://www.casper.com/mattresses/casper-original/","US"]'>mattress</a></div>
     </div>
     <div id="radar"></div>
   </section>
 
-  <div class="stats">
-    <div class="stat"><b id="s-prov">–</b><span>competitor endpoints tracked live</span></div>
-    <div class="stat"><b id="s-under">–</b><span>models where you're undercut</span></div>
-    <div class="stat"><b id="s-signals">0</b><span>findings that matter</span></div>
-    <div class="stat hl"><b id="s-saved">0m</b><span>manual research replaced</span></div>
+  <div id="workspace">
+    <div class="floor" id="floor">
+      <div class="fl-bar"><button id="v-over">◎ Overview</button><button id="v-top">▦ Top view</button><button id="v-spin">⟳ Auto-orbit</button></div>
+      <div class="fl-note" id="fl-note">Your market, in 3D<small>Pedestal height = price · colour = threat · click a rival</small></div>
+      <div class="fl-tip">Drag to orbit · scroll to zoom · right-drag to pan</div>
+      <div class="fl-brand">The market floor</div>
+    </div>
+    <p class="summary" id="summary" style="display:none"></p>
+    <div class="stats">
+      <div class="stat"><b id="s-comp">–</b><span>competitors found and tracked</span></div>
+      <div class="stat"><b id="s-under">–</b><span>rivals cheaper than you</span></div>
+      <div class="stat"><b id="s-signals">0</b><span>findings that need action</span></div>
+      <div class="stat hl"><b id="s-saved">0m</b><span>manual research replaced</span></div>
+    </div>
+    <div class="ins" id="ins" style="display:none">
+      <div class="panel"><h3>Where you sit on price</h3><div id="i-band"></div></div>
+      <div class="panel"><h3>What wins in this market</h3><div id="i-wins"></div></div>
+      <div class="panel"><h3>What buyers complain about</h3><div id="i-comp"></div></div>
+    </div>
+    <div class="cols">
+      <section>
+        <h2 class="sec">Your market</h2>
+        <p class="sub" id="marketsub">Competitors the agent found, ranked by threat to you.</p>
+        <div id="mine"></div>
+        <div class="panel" id="comp"></div>
+      </section>
+      <section>
+        <h2 class="sec">What to do</h2>
+        <p class="sub">Each sweep runs on your own Agent37 agent. It searches the market through Monid and compares with its memory of the last sweep. OpenAI drafts your next move.</p>
+        <ul class="steps" id="steps">
+          <li data-k="agent"><i></i><div>Agent wakes on Agent37 <small>your own always-on instance</small></div></li>
+          <li data-k="agent"><i></i><div>Reads your product page through Monid</div></li>
+          <li data-k="agent"><i></i><div>Searches Google Shopping and Amazon for rivals; compares with last sweep</div></li>
+          <li data-k="judge"><i></i><div>OpenAI prioritises and drafts your moves</div></li>
+          <li data-k="done"><i></i><div>Saved to Supabase, ready for you</div></li>
+        </ul>
+        <div id="sweepinfo"></div>
+        <div style="margin:0 0 16px"><button class="btn2" id="again">Run sweep again</button></div>
+        <div class="feed" id="feed"></div>
+      </section>
+    </div>
   </div>
 
-  <div class="cols">
-    <section>
-      <h2 class="sec">Live price board</h2>
-      <p class="sub" id="boardsub">Loading prices from OpenRouter…</p>
-      <div class="board" id="board"></div>
-    </section>
-    <section>
-      <h2 class="sec">Agent findings</h2>
-      <p class="sub">Each sweep runs on your own Agent37 agent: live prices, its memory of the last sweep, and news through Monid. OpenAI drafts the response.</p>
-      <ul class="steps" id="steps">
-        <li data-k="agent"><i></i><div>Agent wakes on Agent37 <small>its own always-on instance</small></div></li>
-        <li data-k="agent"><i></i><div>Pulls live prices and compares with its last snapshot</div></li>
-        <li data-k="agent"><i></i><div>Searches price news through Monid</div></li>
-        <li data-k="judge"><i></i><div>OpenAI scores each finding and drafts the response</div></li>
-        <li data-k="done"><i></i><div>Saved to Supabase, ready for your approval</div></li>
-      </ul>
-      <div id="sweepinfo"></div>
-      <div class="feed" id="feed"><div class="empty">No sweeps yet. Pick who you are and press <b>Run sweep</b>.</div></div>
-    </section>
-  </div>
-
-  <footer><span>Built on Agent37 · Monid · OpenAI · Supabase · InstaCloud</span><span>Prices: OpenRouter public API, $ per 1M tokens</span></footer>
+  <footer><span>Built on Agent37 · Monid · OpenAI · Supabase · InstaCloud</span><span>Sweeps run only when you ask.</span></footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const short = (m) => m.split("/")[1];
-let us = "Groq", mkt = null, st = null, seen = new Set(), radarFast = false, blips = [];
-try { us = localStorage.getItem("rr-us") || "Groq"; } catch {}
+const money = (v, c) => (v == null || v === "" ? "–" : (Number(v).toLocaleString(undefined, { maximumFractionDigits: 2 }) + " " + (c || "")).trim());
+const host = (u) => String(u || "").replace(/^https?:\/\/(www\.)?/, "").slice(0, 38);
+let cur = null, st = null, seen = new Set(), radarFast = false, blips = [];
+try { cur = new URLSearchParams(location.search).get("w") || localStorage.getItem("rr-watch"); } catch {}
 
-async function loadMarket() {
-  try { mkt = await (await fetch("/api/market")).json(); renderBoard(); } catch (e) { $("boardsub").textContent = "Could not load prices."; }
+async function loadWatches() {
+  try {
+    const ws = await (await fetch("/api/watches")).json();
+    if (!Array.isArray(ws)) return;
+    $("watches").innerHTML = '<option value="">New product…</option>' + ws.map((w) => `<option value="${w.id}" ${String(w.id) === String(cur) ? "selected" : ""}>${esc(w.name)} · ${esc(host(w.sources[0].url))}</option>`).join("");
+  } catch {}
 }
-async function loadState() {
-  try { st = await (await fetch("/api/state?us=" + encodeURIComponent(us))).json(); renderState(); } catch (e) { console.error(e); }
-}
-
-function renderBoard() {
-  const provs = [...new Set(mkt.rows.map((r) => r.provider))].sort();
-  if (!provs.includes(us)) us = provs[0];
-  $("us").innerHTML = provs.map((p) => `<option ${p === us ? "selected" : ""}>${esc(p)}</option>`).join("");
-  $("boardsub").textContent = `${mkt.rows.length} provider endpoints · live from OpenRouter · ${new Date(mkt.fetched_at).toLocaleTimeString()}`;
-  $("s-prov").textContent = mkt.rows.length;
-  let undercut = 0;
-  $("board").innerHTML = mkt.models.map((m) => {
-    const rows = mkt.rows.filter((r) => r.model === m).sort((a, b) => a.in + a.out - (b.in + b.out));
-    if (!rows.length) return "";
-    const max = Math.max(...rows.map((r) => r.in + r.out));
-    const mine = rows.find((r) => r.provider === us), cheap = rows[0];
-    let verdict = `You don't serve this model yet. Cheapest: <b>${esc(cheap.provider)}</b> at $${cheap.in}/$${cheap.out}.`;
-    if (mine) {
-      const gap = (mine.in + mine.out) / (cheap.in + cheap.out);
-      const rank = rows.indexOf(mine) + 1;
-      if (mine === cheap) verdict = `<b class="good">You're the cheapest</b> of ${rows.length} providers.`;
-      else { undercut++; verdict = `<b class="bad">Undercut:</b> you're #${rank} of ${rows.length}. ${esc(cheap.provider)} is ${gap.toFixed(1)}× cheaper.`; }
-    }
-    return `<div class="model"><h3>${esc(rows[0].model_name.replace(/^[^:]+:\s*/, ""))}</h3><div class="verdict">${verdict}</div>
-      <table><tr><th>Provider</th><th style="text-align:right">In $/M</th><th style="text-align:right">Out $/M</th><th>Price</th><th style="text-align:right">Uptime</th></tr>
-      ${rows.map((r) => `<tr class="${r === mine ? "me" : ""} ${r === cheap ? "cheap" : ""}"><td>${esc(r.provider)}${r === mine ? '<span class="pill p-me">you</span>' : ""}${r === cheap ? '<span class="pill p-cheap">cheapest</span>' : ""}${r.uptime != null && r.uptime < 98 ? '<span class="pill p-down">unstable</span>' : ""}</td>
-        <td class="num">${r.in.toFixed(3)}</td><td class="num">${r.out.toFixed(3)}</td><td><div class="bar"><i style="width:${(100 * (r.in + r.out)) / max}%"></i></div></td><td class="num">${r.uptime != null ? r.uptime.toFixed(1) + "%" : "–"}</td></tr>`).join("")}
-      </table></div>`;
-  }).join("");
-  $("s-under").textContent = undercut;
+async function loadWatch() {
+  if (!cur) { $("workspace").style.display = "none"; return; }
+  try {
+    const r = await fetch("/api/watches/" + cur);
+    if (!r.ok) { cur = null; return; }
+    st = await r.json(); $("workspace").style.display = "block"; render();
+  } catch (e) { console.error(e); }
 }
 
-function renderState() {
-  const { sweeps, signals, stats } = st;
+function render() {
+  const { watch, sweeps, signals, market, stats } = st;
+  const s0 = sweeps[0], running = s0 && s0.status === "running";
+  radarFast = running;
+  $("s-comp").textContent = stats.competitors || "–";
   $("s-signals").textContent = stats.signals;
   $("s-saved").textContent = stats.minutes_saved >= 60 ? (stats.minutes_saved / 60).toFixed(1) + "h" : stats.minutes_saved + "m";
-  const cur = sweeps[0], running = cur && cur.status === "running";
-  radarFast = running;
-  $("go").disabled = running; $("go").textContent = running ? "Sweeping…" : "Run sweep";
-  const order = ["start", "agent", "judge", "done"], idx = cur ? order.indexOf(cur.status === "done" ? "done" : cur.step) : -1;
+  $("again").disabled = running; $("again").textContent = running ? "Sweeping…" : "Run sweep again";
+  const order = ["start", "agent", "judge", "done"], idx = s0 ? order.indexOf(s0.status === "done" ? "done" : s0.step) : -1;
   document.querySelectorAll("#steps li").forEach((li) => {
     const k = order.indexOf(li.dataset.k);
-    li.className = !cur || cur.status === "failed" ? "" : cur.status === "done" ? "ok" : k < idx ? "ok" : k === idx ? "on" : "";
+    li.className = !s0 || s0.status === "failed" ? "" : s0.status === "done" ? "ok" : k < idx ? "ok" : k === idx ? "on" : "";
   });
-  if (cur) {
-    const secs = Math.round(((cur.finished_at ? new Date(cur.finished_at) : new Date()) - new Date(cur.started_at)) / 1000);
-    $("sweepinfo").innerHTML = cur.status === "failed" ? `<span class="err">Sweep failed: ${esc(cur.error)}</span>`
-      : `${running ? "Running" : "Last sweep"} · ${Math.floor(secs / 60)}m ${secs % 60}s${cur.sources_checked ? ` · ${cur.sources_checked} sources checked` : ""}`;
-  } else $("sweepinfo").innerHTML = "";
-  if (!signals.length) { $("feed").innerHTML = `<div class="empty">No findings yet for <b>${esc(us)}</b>. Press <b>Run sweep</b>.</div>`; return; }
-  $("feed").innerHTML = signals.map(card).join("");
+  if (s0) {
+    const secs = Math.round(((s0.finished_at ? new Date(s0.finished_at) : new Date()) - new Date(s0.started_at)) / 1000);
+    $("sweepinfo").innerHTML = s0.status === "failed" ? `<span class="err">Sweep failed: ${esc(s0.error)}</span>`
+      : `${running ? "Running" : "Last sweep"} · ${Math.floor(secs / 60)}m ${secs % 60}s · ${stats.sweeps} completed sweep${stats.sweeps === 1 ? "" : "s"}`;
+  }
+
+  if (market && market.my_product) {
+    const m = market.my_product, mp = Number(m.price);
+    $("mine").innerHTML = `<div class="mine"><div><div class="sub" style="margin:0">Your product · ${esc(watch.name)}</div><h3>${esc(m.title)}</h3>
+      <div class="specs">${(m.specs || []).map((x) => `<span class="tag">${esc(x)}</span>`).join("")}</div></div><div class="price">${money(m.price, m.currency)}</div></div>`;
+    const comps = (market.competitors || []).slice().sort((a, b) => (a.rank || 99) - (b.rank || 99));
+    let under = 0;
+    $("comp").innerHTML = `<table><tr><th></th><th>Competitor</th><th style="text-align:right">Price</th><th style="text-align:right">vs you</th><th style="text-align:right">Rating</th><th>Threat</th></tr>${comps.map((c) => {
+      const p = Number(c.price), gap = mp && p ? ((p - mp) / mp) * 100 : null;
+      if (gap != null && gap < 0) under++;
+      return `<tr><td class="rank">${esc(c.rank)}</td><td class="prod"><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.title)}</a><small>${esc(c.brand)}${c.seller ? " · " + esc(c.seller) : ""}${c.why ? " · " + esc(c.why) : ""}</small></td>
+        <td class="num">${money(c.price, c.currency)}</td><td class="num ${gap == null ? "" : gap < 0 ? "gap-neg" : "gap-pos"}">${gap == null ? "–" : (gap > 0 ? "+" : "") + gap.toFixed(0) + "%"}</td>
+        <td class="num">${c.rating ? esc(c.rating) + "★" : "–"}${c.reviews ? `<small style="display:block;color:var(--faint)">${Number(c.reviews).toLocaleString()} reviews</small>` : ""}</td>
+        <td><span class="pill p-${esc(c.threat)}">${esc(c.threat)}</span></td></tr>`;
+    }).join("")}</table>`;
+    $("s-under").textContent = under;
+    $("marketsub").textContent = `${comps.length} competitors the agent found, ranked by threat to you${market.had_previous_sweep ? " · compared with its last sweep" : ""}.`;
+  } else {
+    $("mine").innerHTML = "";
+    $("comp").innerHTML = `<div class="empty" style="border:0">${running ? "The agent is reading your page and searching the market…" : "No completed sweep yet."}</div>`;
+    $("s-under").textContent = "–";
+  }
+
+  renderInsights(market);
+  floor.update(watch, market, running);
+  $("feed").innerHTML = signals.length ? signals.map(card).join("") : `<div class="empty">${running ? "Findings appear here when the sweep finishes (usually 2–4 minutes)." : "No findings yet."}</div>`;
   signals.forEach((s) => { if (!seen.has(s.id)) { seen.add(s.id); blips.push(s.threat); } });
   document.querySelectorAll("[data-approve]").forEach((b) => (b.onclick = async () => {
     await fetch(`/api/actions/${b.dataset.approve}/approve`, { method: "POST" });
     try { await navigator.clipboard.writeText(b.dataset.text); } catch {}
-    loadState();
+    loadWatch();
   }));
 }
 
 function card(s) {
-  const acts = (s.actions || []).map((a) => `<div class="act ${a.status}"><div class="hd"><span>${a.kind === "slack_alert" ? "Slack alert → #sales" : "Recommended move"}${a.status === "approved" ? " · approved" : ""}</span>
+  const acts = (s.actions || []).map((a) => `<div class="act ${a.status}"><div class="hd"><span>${a.kind === "move" ? "Recommended move" : "Draft message"}${a.status === "approved" ? " · approved" : ""}</span>
     ${a.status === "draft" ? `<button class="btn2" data-approve="${a.id}" data-text="${esc(a.draft)}">Approve & copy</button>` : ""}</div><pre>${esc(a.draft)}</pre></div>`).join("");
   return `<article class="sig ${s.matters ? esc(s.threat) : "low"}">
     <div class="tags"><span class="tag">${esc(s.source)}</span>${s.matters ? `<span class="tag t-${esc(s.threat)}">${esc(s.threat)} priority</span>` : '<span class="tag">noted, no action</span>'}<span class="tag">${esc(s.confidence)} confidence</span></div>
     <h4>${esc(s.what_changed)}</h4>
-    ${s.before || s.after ? `<div class="diff"><div><label>Before / you</label>${esc(s.before)}</div><div><label>Now / them</label>${esc(s.after)}</div></div>` : ""}
+    ${s.before || s.after ? `<div class="diff"><div><label>You / before</label>${esc(s.before)}</div><div><label>Them / now</label>${esc(s.after)}</div></div>` : ""}
     <div class="why"><b>Why it matters:</b> ${esc(s.why_it_matters)}</div>
     ${s.evidence_url ? `<a class="ev" href="${esc(s.evidence_url)}" target="_blank" rel="noopener">Evidence ↗</a>` : ""}${acts}</article>`;
 }
 
-$("us").onchange = (e) => { us = e.target.value; try { localStorage.setItem("rr-us", us); } catch {} seen.clear(); renderBoard(); loadState(); };
-$("go").onclick = async () => {
+async function start(body) {
   $("go").disabled = true;
-  await fetch("/api/sweep", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ us }) });
-  loadState();
-};
-loadMarket().then(loadState); setInterval(loadState, 2500); setInterval(loadMarket, 60000);
+  try {
+    const r = await fetch("/api/sweep", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) { alert(d.error); return; }
+    cur = String(d.watch); try { localStorage.setItem("rr-watch", cur); } catch {}
+    seen.clear(); await loadWatches(); await loadWatch();
+    $("workspace").scrollIntoView({ behavior: "smooth" });
+  } finally { $("go").disabled = false; }
+}
+$("form").onsubmit = (e) => { e.preventDefault(); start({ type: $("f-type").value, url: $("f-url").value, market: $("f-market").value }); };
+document.querySelectorAll("[data-ex]").forEach((a) => (a.onclick = () => { const [t, u, m] = JSON.parse(a.dataset.ex); $("f-type").value = t; $("f-url").value = u; $("f-market").value = m; }));
+$("again").onclick = () => { const src = st.watch.sources[0]; start({ type: st.watch.name, url: src.url, market: src.market }); };
+$("watches").onchange = (e) => { cur = e.target.value || null; try { cur ? localStorage.setItem("rr-watch", cur) : localStorage.removeItem("rr-watch"); } catch {} seen.clear(); loadWatch(); };
+loadWatches().then(loadWatch); setInterval(loadWatch, 3000);
+
+function renderInsights(market) {
+  const ins = market && market.insights;
+  if (!ins) { $("ins").style.display = "none"; $("summary").style.display = "none"; return; }
+  $("ins").style.display = "grid";
+  if (ins.summary) { $("summary").style.display = "block"; $("summary").textContent = ins.summary; } else $("summary").style.display = "none";
+  const b = ins.price_band || {}, mp = Number(market.my_product?.price);
+  const pos = b.max > b.min && mp ? Math.max(0, Math.min(100, ((mp - b.min) / (b.max - b.min)) * 100)) : null;
+  $("i-band").innerHTML = b.min != null ? `<div class="band">${pos != null ? `<i style="left:${pos}%"></i><span style="left:${pos}%">You · ${money(mp, b.currency)}</span>` : ""}</div>
+    <div class="bandl"><span>${money(b.min, b.currency)}</span><span>median ${money(b.median, b.currency)}</span><span>${money(b.max, b.currency)}</span></div>
+    ${b.owner_percentile != null ? `<p class="sub" style="margin:8px 0 0">You're pricier than ${esc(b.owner_percentile)}% of comparable products.</p>` : ""}` : "–";
+  $("i-wins").innerHTML = `<ul>${(ins.what_wins || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` +
+    ((ins.opportunities || []).length ? `<h3 style="margin:12px 0 6px;font:600 12px Inter;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)">Your openings</h3><ul>${ins.opportunities.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "");
+  $("i-comp").innerHTML = (ins.complaints || []).map((c) => `<div class="q"><b>${esc(c.about)}:</b> ${esc(c.text)}${c.source_url ? ` <a href="${esc(c.source_url)}" target="_blank" rel="noopener">↗</a>` : ""}</div>`).join("") || "–";
+}
+
+// --- The market floor: isometric 3D scene (Three.js) ---
+const floor = (function () {
+  const box = $("floor");
+  if (!window.THREE) return { update() {} };
+  const W = () => box.clientWidth, H = () => box.clientHeight;
+  const r = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+  box.prepend(r.domElement);
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(32, 1, 0.1, 200);
+  const ctl = THREE.OrbitControls ? new THREE.OrbitControls(cam, r.domElement) : null;
+  if (ctl) { ctl.enableDamping = true; ctl.maxPolarAngle = Math.PI / 2.15; ctl.minDistance = 8; ctl.maxDistance = 40; ctl.autoRotateSpeed = 0.6; }
+  const views = { over: [19, 15, 19], top: [0.01, 30, 0.01] };
+  const setView = (v) => { cam.position.set(...views[v]); if (ctl) { ctl.target.set(0, 0.8, 0); ctl.update(); } else cam.lookAt(0, 0.8, 0); };
+  setView("over");
+  $("v-over").onclick = () => setView("over"); $("v-top").onclick = () => setView("top");
+  $("v-spin").onclick = () => { if (ctl) ctl.autoRotate = !ctl.autoRotate; };
+
+  scene.add(new THREE.HemisphereLight(0xfffdf5, 0xc9cfbb, 0.85));
+  const sun = new THREE.DirectionalLight(0xffffff, 0.75); sun.position.set(8, 14, 6); sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14 }); scene.add(sun);
+  const M = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.85, metalness: 0, ...o });
+
+  // floor slab with a warm rim, a sage walkway ring and a beige "your corner"
+  const slab = new THREE.Mesh(new THREE.BoxGeometry(22, 0.5, 16), M(0xf3f1e9)); slab.position.y = -0.25; slab.receiveShadow = true; scene.add(slab);
+  const rim = new THREE.Mesh(new THREE.BoxGeometry(22.3, 0.3, 16.3), M(0xdcc7a1)); rim.position.y = -0.5; scene.add(rim);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(3.6, 4.4, 64), M(0xcfdcc4)); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.01; ring.receiveShadow = true; scene.add(ring);
+  const wall = new THREE.Mesh(new THREE.BoxGeometry(22, 2.2, 0.25), M(0xe8e7df)); wall.position.set(0, 1.1, -8); wall.receiveShadow = true; scene.add(wall);
+  const wall2 = new THREE.Mesh(new THREE.BoxGeometry(0.25, 2.2, 16), M(0xe8e7df)); wall2.position.set(-11, 1.1, 0); scene.add(wall2);
+  // a few plants for personality
+  [[-9.5, -6.5], [9.5, -6.5], [-9.5, 6.3]].forEach(([x, z]) => {
+    const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.22, 0.45, 16), M(0xd9cbb0)); pot.position.set(x, 0.22, z); pot.castShadow = true; scene.add(pot);
+    for (let i = 0; i < 4; i++) { const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.9, 8), M(0x8fb39a)); leaf.position.set(x + Math.cos(i * 1.6) * 0.1, 0.85, z + Math.sin(i * 1.6) * 0.1); leaf.rotation.set(Math.cos(i) * 0.4, 0, Math.sin(i) * 0.4); scene.add(leaf); }
+  });
+
+  // the agent: a small friendly robot
+  const agent = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 0.6, 20), M(0x8ec5e8)); body.position.y = 0.55; body.castShadow = true; agent.add(body);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.36, 24, 24), M(0x9fd0f0)); head.position.y = 1.15; head.castShadow = true; agent.add(head);
+  const visor = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.14, 0.1), M(0x2f3529)); visor.position.set(0, 1.18, 0.32); agent.add(visor);
+  const ant = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), M(0xd97757, { emissive: 0xd97757, emissiveIntensity: 0.4 })); ant.position.y = 1.62; agent.add(ant);
+  const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.2, 6), M(0x2f3529)); stick.position.y = 1.5; agent.add(stick);
+  agent.position.set(2.2, 0, 2.2); scene.add(agent);
+
+  let peds = [], labels = [], mine = null, running = false, key = "", tour = 0, target = new THREE.Vector3(2.2, 0, 2.2);
+  const colors = { high: 0xd98b7a, medium: 0xe6c27f, low: 0xb9c6b0 };
+  const label = (html, cls, obj, y, onclick) => { const d = document.createElement("div"); d.className = "lbl " + cls; d.innerHTML = html; if (onclick) d.onclick = onclick; box.appendChild(d); labels.push({ d, obj, y }); return d; };
+  const agentLbl = label("Agent · idle", "agent", agent, 2.0);
+
+  function build(watch, market) {
+    peds.forEach((p) => scene.remove(p)); peds = [];
+    labels.filter((l) => l.d !== agentLbl).forEach((l) => l.d.remove()); labels = labels.filter((l) => l.d === agentLbl);
+    if (mine) scene.remove(mine);
+    const m = market && market.my_product;
+    const comps = (market && market.competitors) || [];
+    const prices = comps.map((c) => Number(c.price) || 0).concat(m ? [Number(m.price) || 0] : []);
+    const maxP = Math.max(1, ...prices);
+    const h = (p) => 0.5 + (2.4 * (Number(p) || 0)) / maxP;
+    // your product: center plinth
+    mine = new THREE.Group();
+    const mh = m ? h(m.price) : 1.2;
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.15, mh, 40), M(0xd97757)); base.position.y = mh / 2; base.castShadow = true; base.receiveShadow = true; mine.add(base);
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.12, 40), M(0xf3e1d6)); top.position.y = mh + 0.06; mine.add(top);
+    const gem = new THREE.Mesh(new THREE.OctahedronGeometry(0.42), M(0xfff4ec, { emissive: 0xd97757, emissiveIntensity: 0.25 })); gem.position.y = mh + 0.65; gem.castShadow = true; mine.add(gem); mine.userData.gem = gem;
+    scene.add(mine);
+    label(m ? `<b>You</b> · ${esc((m.title || "").slice(0, 28))}<i>${money(m.price, m.currency)}</i>` : `<b>You</b> · ${esc(watch.name)}`, "me", mine, mh + 1.4);
+    // rivals on an arc, nearest = highest threat
+    const sorted = comps.slice().sort((a, b) => (a.rank || 99) - (b.rank || 99));
+    sorted.forEach((c, i) => {
+      const n = sorted.length, ang = -Math.PI * 0.95 + (i / Math.max(1, n - 1)) * Math.PI * 1.25;
+      const rad = c.threat === "high" ? 4.6 : c.threat === "medium" ? 6 : 7.2;
+      const g = new THREE.Group(); g.position.set(Math.cos(ang) * rad, 0, Math.sin(ang) * rad * 0.8);
+      const ph = h(c.price);
+      const ped = new THREE.Mesh(new THREE.BoxGeometry(1.1, ph, 1.1), M(colors[c.threat] || colors.low)); ped.position.y = ph / 2; ped.castShadow = true; ped.receiveShadow = true; g.add(ped);
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.1, 1.2), M(0xfbf8f0)); cap.position.y = ph + 0.05; g.add(cap);
+      const item = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.38, 0.4), M(0x6f7a62)); item.position.y = ph + 0.3; item.castShadow = true; g.add(item);
+      g.userData = { c, ph, item }; scene.add(g); peds.push(g);
+      const dot = c.threat === "high" ? "#b5473a" : c.threat === "medium" ? "#a8741a" : "#7d8a70";
+      label(`<span class="dot" style="background:${dot}"></span><b>#${esc(c.rank)}</b> ${esc((c.brand || c.title || "").slice(0, 22))}<i>${money(c.price, c.currency)}</i>`, "", g, ph + 0.95, () => {
+        $("fl-note").innerHTML = `${esc(c.title)}<small>${money(c.price, c.currency)}${c.rating ? ` · ${esc(c.rating)}★` : ""} · ${esc(c.threat)} threat · ${esc(c.why || "")}</small>${c.url ? `<small><a href="${esc(c.url)}" target="_blank" rel="noopener">Open listing ↗</a></small>` : ""}`;
+      });
+    });
+  }
+
+  function resize() { r.setSize(W(), H()); cam.aspect = W() / H(); cam.updateProjectionMatrix(); }
+  addEventListener("resize", resize);
+  const v = new THREE.Vector3();
+  let t = 0, last = performance.now();
+  (function tick(now) {
+    requestAnimationFrame(tick);
+    if (!box.offsetParent) return; // hidden
+    if (r.domElement.width === 0 || Math.abs(r.domElement.clientWidth - W()) > 2) resize();
+    const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
+    // agent: tours rival pedestals while sweeping, rests beside you otherwise
+    if (running && peds.length) {
+      if (agent.position.distanceTo(target) < 0.15) { tour = (tour + 1) % peds.length; const p = peds[tour].position; target.set(p.x * 0.78, 0, p.z * 0.78); }
+    } else if (running) { target.set(Math.cos(t * 0.6) * 3, 0, Math.sin(t * 0.6) * 3); } else target.set(1.9, 0, 1.9);
+    const dir = target.clone().sub(agent.position); const d = dir.length();
+    if (d > 0.05) { dir.normalize(); agent.position.addScaledVector(dir, Math.min(d, dt * (running ? 3.2 : 2))); agent.rotation.y = Math.atan2(dir.x, dir.z); }
+    agent.position.y = d > 0.05 ? Math.abs(Math.sin(t * 10)) * 0.12 : Math.sin(t * 2) * 0.03;
+    ant.material.emissiveIntensity = running ? 0.4 + Math.abs(Math.sin(t * 6)) * 0.8 : 0.3;
+    if (mine) mine.userData.gem.rotation.y += dt * 0.8;
+    peds.forEach((g, i) => { g.userData.item.rotation.y = Math.sin(t + i) * 0.3; });
+    if (ctl) ctl.update();
+    r.render(scene, cam);
+    for (const l of labels) {
+      l.obj.getWorldPosition(v); v.y += l.y; v.project(cam);
+      const vis = v.z < 1; l.d.style.display = vis ? "block" : "none";
+      l.d.style.left = ((v.x + 1) / 2) * W() + "px"; l.d.style.top = ((1 - v.y) / 2) * H() + "px";
+    }
+  })(performance.now());
+
+  return {
+    update(watch, market, isRunning) {
+      running = isRunning;
+      agentLbl.innerHTML = running ? "Agent · searching the market…" : "Agent · idle";
+      const k = watch.id + ":" + JSON.stringify((market && market.competitors) || []).length;
+      if (k !== key) { key = k; build(watch, market); }
+    },
+  };
+})();
 
 // --- 3D radar accent (Three.js) ---
 (function () {
@@ -236,7 +434,7 @@ loadMarket().then(loadState); setInterval(loadState, 2500); setInterval(loadMark
   [0.7, 1.25, 1.8].forEach((rad, i) => { const m = new THREE.Mesh(new THREE.RingGeometry(rad - 0.012, rad + 0.012, 96), mat(clay, 0.5 - i * 0.1)); m.rotation.x = -Math.PI / 2; scene.add(m); });
   const core = new THREE.Mesh(new THREE.SphereGeometry(0.16, 32, 32), mat(clay, 1)); scene.add(core);
   const beam = new THREE.Mesh(new THREE.CircleGeometry(1.85, 48, 0, 0.7), mat(clay, 0.16)); beam.rotation.x = -Math.PI / 2; scene.add(beam);
-  const rivals = [0.7, 1.25, 1.8, 1.25, 1.8].map((rad, i) => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), mat(0x6b6a64, 0.9)); m.userData = { rad, a: i * 1.3, sp: 0.2 + i * 0.05 }; scene.add(m); return m; });
+  const rivals = [0.7, 1.25, 1.8, 1.25, 1.8, 0.7].map((rad, i) => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), mat(0x6b6a64, 0.9)); m.userData = { rad, a: i * 1.1, sp: 0.2 + i * 0.05 }; scene.add(m); return m; });
   const pulses = []; let t = 0;
   (function tick() {
     t += radarFast ? 0.05 : 0.012; beam.rotation.z = -t * 1.5;
