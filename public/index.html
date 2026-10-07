@@ -5,203 +5,249 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rivalradar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07090f;--panel:#0e121b;--panel2:#131926;--line:#1f2736;--text:#e8ecf3;--muted:#8792a6;--accent:#4ade80;--accent2:#22d3ee;--high:#f43f5e;--med:#f59e0b;--low:#64748b}
+:root{
+  --bg:#faf9f5;--surface:#ffffff;--sunk:#f0eee6;--line:#e6e2d6;--text:#141413;--muted:#6b6a64;--faint:#9a988f;
+  --clay:#d97757;--clay-d:#c6613f;--clay-soft:#f6e6de;--good:#4f7a4a;--good-soft:#e5eedf;--bad:#b5473a;--bad-soft:#f6e0dc;--warn:#a8741a;--warn-soft:#f5ead2;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1f1e1d;--surface:#262624;--sunk:#30302e;--line:#3a3936;--text:#f5f4ee;--muted:#b0aea5;--faint:#85837b;
+  --clay-soft:#3d2b24;--good:#8fbf86;--good-soft:#28332a;--bad:#e68a7c;--bad-soft:#3d2724;--warn:#e0b25a;--warn-soft:#3a3122;}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;min-height:100vh}
-a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
-.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-#radar{width:150px;height:150px;flex:none;border-radius:50%;overflow:hidden;background:radial-gradient(circle,#0b1a14 0,#07090f 70%)}
-.brand h1{margin:0;font-size:28px;letter-spacing:-.02em}.brand h1 span{color:var(--accent)}
-.brand p{margin:4px 0 0;color:var(--muted);max-width:520px}
-.watch{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.who{font-size:13px;color:var(--muted)}.who b{color:var(--text);font-size:18px}
-button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 18px;font-weight:600}
-.primary{background:var(--accent);color:#04130a;box-shadow:0 0 24px #4ade8055}.primary:disabled{opacity:.5;cursor:wait}
-.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:6px 12px;font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.stat b{display:block;font-size:24px;font-variant-numeric:tabular-nums}.stat span{color:var(--muted);font-size:12px}
-.stat.hl b{color:var(--accent)}
-.grid{display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
-.card h3{margin:0 0 12px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.src{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid var(--line);font-size:13px}.src:first-of-type{border-top:0}
-.src code{font:12px JetBrains Mono,monospace;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.steps{list-style:none;margin:0;padding:0}
-.steps li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;color:var(--muted);font-size:13px}
-.steps li i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:1px}
-.steps li.on{color:var(--text)}.steps li.on i{border-color:var(--accent2);border-top-color:transparent;animation:spin 1s linear infinite}
-.steps li.ok{color:var(--text)}.steps li.ok i{background:var(--accent);border-color:var(--accent)}
-.steps small{display:block;color:var(--muted);font-size:11px}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--clay-d)}
+.serif{font-family:"Source Serif 4",Georgia,serif}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px 80px}
+nav{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 21px "Source Serif 4",serif;letter-spacing:-.01em}
+.logo svg{width:26px;height:26px}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+label.us{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+select{font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text)}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid transparent;padding:9px 16px;font-weight:500}
+.btn{background:var(--clay);color:#fff}.btn:hover{background:var(--clay-d)}.btn:disabled{opacity:.6;cursor:progress}
+.btn2{background:var(--surface);border-color:var(--line);color:var(--text);font-size:13px;padding:6px 12px}.btn2:hover{background:var(--sunk)}
+.hero{display:grid;grid-template-columns:1fr 220px;gap:32px;align-items:center;padding:44px 0 28px}
+.hero h1{font:500 44px/1.12 "Source Serif 4",serif;letter-spacing:-.02em;margin:0 0 14px}
+.hero h1 em{font-style:italic;color:var(--clay-d)}
+.hero p{color:var(--muted);font-size:17px;max-width:640px;margin:0}
+#radar{width:220px;height:220px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:36px}
+.stat{background:var(--surface);padding:18px 20px}
+.stat b{display:block;font:500 30px "Source Serif 4",serif;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:13px}
+.stat.hl b{color:var(--clay-d)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+h2.sec{font:500 24px "Source Serif 4",serif;margin:0 0 4px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+.board{display:flex;flex-direction:column;gap:16px}
+.model{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.model h3{margin:0 0 2px;font:600 15px Inter}
+.model .verdict{font-size:13px;color:var(--muted);margin-bottom:10px}
+.verdict b.bad{color:var(--bad)}.verdict b.good{color:var(--good)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:4px 6px}
+td{padding:6px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+td.num{text-align:right;font-family:"JetBrains Mono",monospace;font-size:12.5px}
+tr.me td{background:var(--clay-soft);font-weight:600}
+tr.me td:first-child{border-radius:8px 0 0 8px}tr.me td:last-child{border-radius:0 8px 8px 0}
+.bar{height:6px;border-radius:3px;background:var(--sunk);position:relative;min-width:60px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--faint)}
+tr.me .bar i{background:var(--clay)}tr.cheap .bar i{background:var(--good)}
+.pill{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
+.p-me{background:var(--clay);color:#fff}.p-cheap{background:var(--good-soft);color:var(--good)}.p-down{background:var(--warn-soft);color:var(--warn)}
+.steps{list-style:none;margin:0 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.steps li{display:flex;gap:10px;padding:5px 0;color:var(--faint);font-size:13.5px}
+.steps li i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:2px}
+.steps li.on{color:var(--text)}.steps li.on i{border-color:var(--clay);border-top-color:transparent;animation:spin .9s linear infinite}
+.steps li.ok{color:var(--text)}.steps li.ok i{background:var(--good);border-color:var(--good)}
+.steps small{color:var(--faint);margin-left:4px}
 @keyframes spin{to{transform:rotate(360deg)}}
+#sweepinfo{font-size:12.5px;color:var(--muted);margin:-8px 0 18px}
 .feed{display:flex;flex-direction:column;gap:14px}
-.sig{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;position:relative;animation:in .5s ease}
-.sig.high{border-color:#f43f5e66;box-shadow:0 0 30px #f43f5e14}
-@keyframes in{from{opacity:0;transform:translateY(10px)}}
-.tags{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
-.tag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:6px;background:var(--panel2);color:var(--muted)}
-.t-high{background:#f43f5e22;color:#fb7185}.t-medium{background:#f59e0b22;color:#fbbf24}.t-low{background:#64748b22;color:#94a3b8}
-.sig h2{margin:0 0 10px;font-size:17px;line-height:1.35}
-.diff{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
-.diff div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;font:12px/1.5 JetBrains Mono,monospace;white-space:pre-wrap;word-break:break-word}
-.diff .b{border-left:3px solid #f43f5e88}.diff .a{border-left:3px solid #4ade8088}
-.diff label{display:block;font:600 10px Inter;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
-.why{color:#cbd5e1}.why b{color:var(--text)}
-.ev{font-size:12px;margin-top:6px;display:inline-block}
-.act{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px}
-.act .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px;color:var(--muted)}
-.act pre{margin:0;white-space:pre-wrap;font:13px/1.5 Inter}
-.act.approved{border-color:#4ade8066}.act.approved .hd span{color:var(--accent)}
-.empty{color:var(--muted);text-align:center;padding:40px 20px}
-.dim{opacity:.55}
-.err{color:#fb7185;font-size:12px;margin-top:8px}
-footer{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
-@media(max-width:860px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.watch{margin-left:0;align-items:flex-start}.diff{grid-template-columns:1fr}}
+.sig{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;animation:in .45s ease}
+.sig.high{border-left:4px solid var(--bad)}.sig.medium{border-left:4px solid var(--warn)}.sig.low{border-left:4px solid var(--faint)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--sunk);color:var(--muted)}
+.t-high{background:var(--bad-soft);color:var(--bad)}.t-medium{background:var(--warn-soft);color:var(--warn)}
+.sig h4{font:500 18px/1.35 "Source Serif 4",serif;margin:0 0 10px}
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.diff div{background:var(--sunk);border-radius:10px;padding:8px 10px;font-size:13px}
+.diff label{display:block;font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+.why{font-size:14px}.why b{font-weight:600}
+.ev{display:inline-block;margin-top:6px;font-size:12.5px}
+.act{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg)}
+.act .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:4px}
+.act pre{margin:0;white-space:pre-wrap;font:13.5px/1.5 Inter}
+.act.approved{border-color:var(--good)}.act.approved .hd span{color:var(--good)}
+.empty{border:1px dashed var(--line);border-radius:16px;padding:36px 20px;text-align:center;color:var(--muted)}
+.err{color:var(--bad)}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.cols{grid-template-columns:1fr}.hero{grid-template-columns:1fr}#radar{display:none}.hero h1{font-size:34px}.stats{grid-template-columns:repeat(2,1fr)}.diff{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
+  <nav>
+    <div class="logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#d97757" stroke-width="2"/><circle cx="16" cy="16" r="8" fill="none" stroke="#d97757" stroke-width="2" opacity=".5"/><path d="M16 16 L28 10" stroke="#d97757" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2.5" fill="#d97757"/></svg>Rivalradar</div>
+    <div class="nav-r">
+      <label class="us">You are <select id="us"></select></label>
+      <button class="btn" id="go">Run sweep</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1 class="serif">Inference prices change every week.<br><em>Your agent watches them for you.</em></h1>
+      <p>Rivalradar tracks every provider serving the models you sell, notices when a rival undercuts you or stumbles, and drafts the alert and the price move for you to approve.</p>
+    </div>
     <div id="radar"></div>
-    <div class="brand">
-      <h1>Rival<span>radar</span></h1>
-      <p>Your competitor-research analyst that never sleeps. It checks their pricing, changelog and hiring, decides what actually matters, shows the evidence, and drafts the alert for sales.</p>
-    </div>
-    <div class="watch">
-      <div class="who">Watching <b id="cname">…</b></div>
-      <button class="primary" id="go">Sweep now</button>
-    </div>
-  </header>
+  </section>
 
   <div class="stats">
-    <div class="stat"><b id="s-sweeps">0</b><span>sweeps run</span></div>
-    <div class="stat"><b id="s-sources">0</b><span>sources checked</span></div>
-    <div class="stat"><b id="s-signals">0</b><span>changes that matter</span></div>
+    <div class="stat"><b id="s-prov">–</b><span>competitor endpoints tracked live</span></div>
+    <div class="stat"><b id="s-under">–</b><span>models where you're undercut</span></div>
+    <div class="stat"><b id="s-signals">0</b><span>findings that matter</span></div>
     <div class="stat hl"><b id="s-saved">0m</b><span>manual research replaced</span></div>
   </div>
 
-  <div class="grid">
-    <aside style="display:flex;flex-direction:column;gap:16px">
-      <div class="card"><h3>Sources</h3><div id="sources"></div></div>
-      <div class="card"><h3>Live sweep</h3>
-        <ul class="steps" id="steps">
-          <li data-k="agent"><i></i><div>Agent wakes on Agent37<small>its own always-on instance, with memory of past sweeps</small></div></li>
-          <li data-k="agent"><i></i><div>Fetches every page through Monid<small>pricing · changelog · careers</small></div></li>
-          <li data-k="agent"><i></i><div>Compares with the last snapshot<small>keeps only real, sales-relevant changes</small></div></li>
-          <li data-k="judge"><i></i><div>OpenAI scores threat and drafts actions<small>Slack alert + battlecard line</small></div></li>
-          <li data-k="done"><i></i><div>Saved to Supabase<small>ready for your approval</small></div></li>
-        </ul>
-        <div id="sweepinfo" class="who" style="margin-top:8px"></div>
-      </div>
-    </aside>
-    <main class="feed" id="feed"><div class="empty">No sweeps yet. Hit <b>Sweep now</b>.</div></main>
+  <div class="cols">
+    <section>
+      <h2 class="sec">Live price board</h2>
+      <p class="sub" id="boardsub">Loading prices from OpenRouter…</p>
+      <div class="board" id="board"></div>
+    </section>
+    <section>
+      <h2 class="sec">Agent findings</h2>
+      <p class="sub">Each sweep runs on your own Agent37 agent: live prices, its memory of the last sweep, and news through Monid. OpenAI drafts the response.</p>
+      <ul class="steps" id="steps">
+        <li data-k="agent"><i></i><div>Agent wakes on Agent37 <small>its own always-on instance</small></div></li>
+        <li data-k="agent"><i></i><div>Pulls live prices and compares with its last snapshot</div></li>
+        <li data-k="agent"><i></i><div>Searches price news through Monid</div></li>
+        <li data-k="judge"><i></i><div>OpenAI scores each finding and drafts the response</div></li>
+        <li data-k="done"><i></i><div>Saved to Supabase, ready for your approval</div></li>
+      </ul>
+      <div id="sweepinfo"></div>
+      <div class="feed" id="feed"><div class="empty">No sweeps yet. Pick who you are and press <b>Run sweep</b>.</div></div>
+    </section>
   </div>
-  <footer>Agent37 · Monid · OpenAI · Supabase · InstaCloud</footer>
+
+  <footer><span>Built on Agent37 · Monid · OpenAI · Supabase · InstaCloud</span><span>Prices: OpenRouter public API, $ per 1M tokens</span></footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-let state = null, seen = new Set(), radarFast = false, blips = [];
+const short = (m) => m.split("/")[1];
+let us = "Groq", mkt = null, st = null, seen = new Set(), radarFast = false, blips = [];
+try { us = localStorage.getItem("rr-us") || "Groq"; } catch {}
 
-async function load() {
-  try {
-    const r = await fetch("/api/state"); state = await r.json(); render();
-  } catch (e) { console.error(e); }
+async function loadMarket() {
+  try { mkt = await (await fetch("/api/market")).json(); renderBoard(); } catch (e) { $("boardsub").textContent = "Could not load prices."; }
+}
+async function loadState() {
+  try { st = await (await fetch("/api/state?us=" + encodeURIComponent(us))).json(); renderState(); } catch (e) { console.error(e); }
 }
 
-function render() {
-  const { competitor, sweeps, signals, stats } = state;
-  $("cname").textContent = competitor.name;
-  $("s-sweeps").textContent = stats.sweeps;
-  $("s-sources").textContent = stats.sources_checked;
+function renderBoard() {
+  const provs = [...new Set(mkt.rows.map((r) => r.provider))].sort();
+  if (!provs.includes(us)) us = provs[0];
+  $("us").innerHTML = provs.map((p) => `<option ${p === us ? "selected" : ""}>${esc(p)}</option>`).join("");
+  $("boardsub").textContent = `${mkt.rows.length} provider endpoints · live from OpenRouter · ${new Date(mkt.fetched_at).toLocaleTimeString()}`;
+  $("s-prov").textContent = mkt.rows.length;
+  let undercut = 0;
+  $("board").innerHTML = mkt.models.map((m) => {
+    const rows = mkt.rows.filter((r) => r.model === m).sort((a, b) => a.in + a.out - (b.in + b.out));
+    if (!rows.length) return "";
+    const max = Math.max(...rows.map((r) => r.in + r.out));
+    const mine = rows.find((r) => r.provider === us), cheap = rows[0];
+    let verdict = `You don't serve this model yet. Cheapest: <b>${esc(cheap.provider)}</b> at $${cheap.in}/$${cheap.out}.`;
+    if (mine) {
+      const gap = (mine.in + mine.out) / (cheap.in + cheap.out);
+      const rank = rows.indexOf(mine) + 1;
+      if (mine === cheap) verdict = `<b class="good">You're the cheapest</b> of ${rows.length} providers.`;
+      else { undercut++; verdict = `<b class="bad">Undercut:</b> you're #${rank} of ${rows.length}. ${esc(cheap.provider)} is ${gap.toFixed(1)}× cheaper.`; }
+    }
+    return `<div class="model"><h3>${esc(rows[0].model_name.replace(/^[^:]+:\s*/, ""))}</h3><div class="verdict">${verdict}</div>
+      <table><tr><th>Provider</th><th style="text-align:right">In $/M</th><th style="text-align:right">Out $/M</th><th>Price</th><th style="text-align:right">Uptime</th></tr>
+      ${rows.map((r) => `<tr class="${r === mine ? "me" : ""} ${r === cheap ? "cheap" : ""}"><td>${esc(r.provider)}${r === mine ? '<span class="pill p-me">you</span>' : ""}${r === cheap ? '<span class="pill p-cheap">cheapest</span>' : ""}${r.uptime != null && r.uptime < 98 ? '<span class="pill p-down">unstable</span>' : ""}</td>
+        <td class="num">${r.in.toFixed(3)}</td><td class="num">${r.out.toFixed(3)}</td><td><div class="bar"><i style="width:${(100 * (r.in + r.out)) / max}%"></i></div></td><td class="num">${r.uptime != null ? r.uptime.toFixed(1) + "%" : "–"}</td></tr>`).join("")}
+      </table></div>`;
+  }).join("");
+  $("s-under").textContent = undercut;
+}
+
+function renderState() {
+  const { sweeps, signals, stats } = st;
   $("s-signals").textContent = stats.signals;
   $("s-saved").textContent = stats.minutes_saved >= 60 ? (stats.minutes_saved / 60).toFixed(1) + "h" : stats.minutes_saved + "m";
-  $("sources").innerHTML = competitor.sources.map((s) => `<div class="src"><b>${esc(s.source)}</b><code><a href="${esc(s.url)}" target="_blank">${esc(s.url.replace("https://", ""))}</a></code></div>`).join("");
-
-  const cur = sweeps[0];
-  const running = cur && cur.status === "running";
+  const cur = sweeps[0], running = cur && cur.status === "running";
   radarFast = running;
-  $("go").disabled = running;
-  $("go").textContent = running ? "Sweeping…" : "Sweep now";
-  const order = ["start", "agent", "judge", "done"];
-  const idx = cur ? order.indexOf(cur.status === "done" ? "done" : cur.step) : -1;
-  document.querySelectorAll("#steps li").forEach((li, i) => {
+  $("go").disabled = running; $("go").textContent = running ? "Sweeping…" : "Run sweep";
+  const order = ["start", "agent", "judge", "done"], idx = cur ? order.indexOf(cur.status === "done" ? "done" : cur.step) : -1;
+  document.querySelectorAll("#steps li").forEach((li) => {
     const k = order.indexOf(li.dataset.k);
-    li.className = !cur ? "" : cur.status === "done" ? "ok" : k < idx ? "ok" : k === idx ? (running ? "on" : "") : "";
+    li.className = !cur || cur.status === "failed" ? "" : cur.status === "done" ? "ok" : k < idx ? "ok" : k === idx ? "on" : "";
   });
   if (cur) {
-    const t0 = new Date(cur.started_at), t1 = cur.finished_at ? new Date(cur.finished_at) : new Date();
-    const secs = Math.round((t1 - t0) / 1000);
-    $("sweepinfo").innerHTML = cur.status === "failed" ? `<div class="err">Sweep failed: ${esc(cur.error)}</div>`
-      : `${running ? "Running" : "Last sweep"} · ${secs}s${cur.sources_checked ? ` · ${cur.sources_checked} sources` : ""}`;
-  }
-
-  if (!signals.length) return;
+    const secs = Math.round(((cur.finished_at ? new Date(cur.finished_at) : new Date()) - new Date(cur.started_at)) / 1000);
+    $("sweepinfo").innerHTML = cur.status === "failed" ? `<span class="err">Sweep failed: ${esc(cur.error)}</span>`
+      : `${running ? "Running" : "Last sweep"} · ${Math.floor(secs / 60)}m ${secs % 60}s${cur.sources_checked ? ` · ${cur.sources_checked} sources checked` : ""}`;
+  } else $("sweepinfo").innerHTML = "";
+  if (!signals.length) { $("feed").innerHTML = `<div class="empty">No findings yet for <b>${esc(us)}</b>. Press <b>Run sweep</b>.</div>`; return; }
   $("feed").innerHTML = signals.map(card).join("");
   signals.forEach((s) => { if (!seen.has(s.id)) { seen.add(s.id); blips.push(s.threat); } });
-  document.querySelectorAll("[data-approve]").forEach((b) => b.onclick = async () => {
+  document.querySelectorAll("[data-approve]").forEach((b) => (b.onclick = async () => {
     await fetch(`/api/actions/${b.dataset.approve}/approve`, { method: "POST" });
     try { await navigator.clipboard.writeText(b.dataset.text); } catch {}
-    load();
-  });
+    loadState();
+  }));
 }
 
 function card(s) {
-  const acts = (s.actions || []).map((a) => `
-    <div class="act ${a.status}">
-      <div class="hd"><span>${a.kind === "slack_alert" ? "Drafted Slack alert → #sales" : "Battlecard update"}${a.status === "approved" ? " · approved ✓" : ""}</span>
-      ${a.status === "draft" ? `<button class="ghost" data-approve="${a.id}" data-text="${esc(a.draft)}">Approve & copy</button>` : ""}</div>
-      <pre>${esc(a.draft)}</pre></div>`).join("");
-  return `<article class="sig ${s.matters ? s.threat : "dim"}">
-    <div class="tags"><span class="tag">${esc(s.source)}</span>
-      ${s.matters ? `<span class="tag t-${esc(s.threat)}">${esc(s.threat)} threat</span>` : `<span class="tag">ignored: not relevant to sales</span>`}
-      <span class="tag">${esc(s.confidence)} confidence</span></div>
-    <h2>${esc(s.what_changed)}</h2>
-    ${s.before || s.after ? `<div class="diff"><div class="b"><label>Before</label>${esc(s.before)}</div><div class="a"><label>Now</label>${esc(s.after)}</div></div>` : ""}
+  const acts = (s.actions || []).map((a) => `<div class="act ${a.status}"><div class="hd"><span>${a.kind === "slack_alert" ? "Slack alert → #sales" : "Recommended move"}${a.status === "approved" ? " · approved" : ""}</span>
+    ${a.status === "draft" ? `<button class="btn2" data-approve="${a.id}" data-text="${esc(a.draft)}">Approve & copy</button>` : ""}</div><pre>${esc(a.draft)}</pre></div>`).join("");
+  return `<article class="sig ${s.matters ? esc(s.threat) : "low"}">
+    <div class="tags"><span class="tag">${esc(s.source)}</span>${s.matters ? `<span class="tag t-${esc(s.threat)}">${esc(s.threat)} priority</span>` : '<span class="tag">noted, no action</span>'}<span class="tag">${esc(s.confidence)} confidence</span></div>
+    <h4>${esc(s.what_changed)}</h4>
+    ${s.before || s.after ? `<div class="diff"><div><label>Before / you</label>${esc(s.before)}</div><div><label>Now / them</label>${esc(s.after)}</div></div>` : ""}
     <div class="why"><b>Why it matters:</b> ${esc(s.why_it_matters)}</div>
-    ${s.evidence_url ? `<a class="ev" href="${esc(s.evidence_url)}" target="_blank">Evidence ↗ ${esc(s.evidence_url)}</a>` : ""}
-    ${acts}</article>`;
+    ${s.evidence_url ? `<a class="ev" href="${esc(s.evidence_url)}" target="_blank" rel="noopener">Evidence ↗</a>` : ""}${acts}</article>`;
 }
 
-$("go").onclick = async () => { $("go").disabled = true; await fetch("/api/sweep", { method: "POST" }); load(); };
-load(); setInterval(load, 2500);
+$("us").onchange = (e) => { us = e.target.value; try { localStorage.setItem("rr-us", us); } catch {} seen.clear(); renderBoard(); loadState(); };
+$("go").onclick = async () => {
+  $("go").disabled = true;
+  await fetch("/api/sweep", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ us }) });
+  loadState();
+};
+loadMarket().then(loadState); setInterval(loadState, 2500); setInterval(loadMarket, 60000);
 
-// --- small 3D radar accent ---
-(function radar() {
+// --- 3D radar accent (Three.js) ---
+(function () {
   if (!window.THREE) return;
-  const el = $("radar"), W = 150;
+  const el = $("radar"), W = 220, clay = 0xd97757;
   const r = new THREE.WebGLRenderer({ antialias: true, alpha: true }); r.setSize(W, W); r.setPixelRatio(Math.min(devicePixelRatio, 2)); el.appendChild(r.domElement);
-  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(40, 1, 0.1, 100); cam.position.set(0, 4.2, 4.2); cam.lookAt(0, 0, 0);
-  const green = 0x4ade80;
-  [0.6, 1.1, 1.6].forEach((rad) => {
-    const g = new THREE.RingGeometry(rad - 0.01, rad + 0.01, 64); const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: green, transparent: true, opacity: 0.35, side: THREE.DoubleSide }));
-    m.rotation.x = -Math.PI / 2; scene.add(m);
-  });
-  const core = new THREE.Mesh(new THREE.SphereGeometry(0.14, 24, 24), new THREE.MeshBasicMaterial({ color: green })); scene.add(core);
-  const beam = new THREE.Mesh(new THREE.CircleGeometry(1.7, 32, 0, 0.6), new THREE.MeshBasicMaterial({ color: green, transparent: true, opacity: 0.22, side: THREE.DoubleSide }));
-  beam.rotation.x = -Math.PI / 2; scene.add(beam);
-  const rival = new THREE.Mesh(new THREE.SphereGeometry(0.12, 20, 20), new THREE.MeshBasicMaterial({ color: 0x22d3ee })); scene.add(rival);
-  const pulses = [];
-  let t = 0;
+  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(38, 1, 0.1, 100); cam.position.set(0, 4.3, 4.6); cam.lookAt(0, -0.2, 0);
+  const mat = (c, o) => new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: o, side: THREE.DoubleSide });
+  [0.7, 1.25, 1.8].forEach((rad, i) => { const m = new THREE.Mesh(new THREE.RingGeometry(rad - 0.012, rad + 0.012, 96), mat(clay, 0.5 - i * 0.1)); m.rotation.x = -Math.PI / 2; scene.add(m); });
+  const core = new THREE.Mesh(new THREE.SphereGeometry(0.16, 32, 32), mat(clay, 1)); scene.add(core);
+  const beam = new THREE.Mesh(new THREE.CircleGeometry(1.85, 48, 0, 0.7), mat(clay, 0.16)); beam.rotation.x = -Math.PI / 2; scene.add(beam);
+  const rivals = [0.7, 1.25, 1.8, 1.25, 1.8].map((rad, i) => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), mat(0x6b6a64, 0.9)); m.userData = { rad, a: i * 1.3, sp: 0.2 + i * 0.05 }; scene.add(m); return m; });
+  const pulses = []; let t = 0;
   (function tick() {
-    t += radarFast ? 0.06 : 0.015;
-    beam.rotation.z = -t;
-    rival.position.set(Math.cos(t * 0.3) * 1.1, 0, Math.sin(t * 0.3) * 1.1);
-    core.scale.setScalar(1 + Math.sin(t * 3) * 0.08);
+    t += radarFast ? 0.05 : 0.012; beam.rotation.z = -t * 1.5;
+    rivals.forEach((m) => { const a = m.userData.a + t * m.userData.sp; m.position.set(Math.cos(a) * m.userData.rad, 0, Math.sin(a) * m.userData.rad); });
+    core.scale.setScalar(1 + Math.sin(t * 4) * 0.07);
     while (blips.length) {
-      const th = blips.shift(); const col = th === "high" ? 0xf43f5e : th === "medium" ? 0xf59e0b : 0x94a3b8;
-      const p = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), new THREE.MeshBasicMaterial({ color: col, transparent: true }));
-      p.position.copy(rival.position); p.userData.k = 0; scene.add(p); pulses.push(p);
+      const th = blips.shift(), src = rivals[Math.floor(Math.random() * rivals.length)];
+      const p = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), mat(th === "high" ? 0xb5473a : th === "medium" ? 0xa8741a : 0x9a988f, 1));
+      p.position.copy(src.position); p.userData.k = 0; scene.add(p); pulses.push(p);
     }
-    for (let i = pulses.length - 1; i >= 0; i--) {
-      const p = pulses[i]; p.userData.k += 0.02; p.position.lerp(core.position, 0.04); p.material.opacity = 1 - p.userData.k;
-      if (p.userData.k >= 1) { scene.remove(p); pulses.splice(i, 1); }
-    }
+    for (let i = pulses.length - 1; i >= 0; i--) { const p = pulses[i]; p.userData.k += 0.015; p.position.lerp(core.position, 0.035); p.material.opacity = 1 - p.userData.k; if (p.userData.k >= 1) { scene.remove(p); pulses.splice(i, 1); } }
     r.render(scene, cam); requestAnimationFrame(tick);
   })();
 })();

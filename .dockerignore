@@ -1,0 +1,7 @@
+.env
+.env.*
+node_modules
+server.log
+agent/test-sweep-result.json
+.insta
+.git

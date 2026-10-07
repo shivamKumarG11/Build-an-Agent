@@ -11,23 +11,36 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const DEMO = {
-  name: "Linear",
-  slug: "linear",
-  sources: [
-    { source: "pricing", url: "https://linear.app/pricing" },
-    { source: "changelog", url: "https://linear.app/changelog" },
-    { source: "careers", url: "https://linear.app/careers" },
-  ],
-};
-const BASELINE = "20260401"; // Wayback Machine date used as "last sweep" when no snapshot exists yet
-const MINUTES_PER_SOURCE = 15; // manual time to open, read and compare one source
+const MODELS = ["openai/gpt-oss-120b", "meta-llama/llama-3.3-70b-instruct", "qwen/qwen3-235b-a22b-2507", "deepseek/deepseek-chat-v3.1"];
+const DEFAULT_US = "Groq";
+const MINUTES_PER_SOURCE = 10; // manual time to look up and compare one model's prices across providers
 
-async function ensureCompetitor() {
+// Live price board straight from OpenRouter's public API (cached 60s).
+let marketCache = { at: 0, data: null };
+async function market() {
+  if (Date.now() - marketCache.at < 60000 && marketCache.data) return marketCache.data;
+  const rows = [];
+  await Promise.all(MODELS.map(async (m) => {
+    const r = await fetch(`https://openrouter.ai/api/v1/models/${m}/endpoints`, { signal: AbortSignal.timeout(15000) });
+    const d = (await r.json()).data;
+    const best = {};
+    for (const e of d.endpoints) {
+      const row = { model: m, model_name: d.name, provider: e.provider_name,
+        in: +(e.pricing.prompt * 1e6).toFixed(3), out: +(e.pricing.completion * 1e6).toFixed(3),
+        uptime: e.uptime_last_30m != null ? +e.uptime_last_30m.toFixed(2) : null, ctx: e.context_length, quant: e.quantization };
+      const k = row.provider; if (!best[k] || row.in + row.out < best[k].in + best[k].out) best[k] = row;
+    }
+    rows.push(...Object.values(best));
+  }));
+  marketCache = { at: Date.now(), data: { models: MODELS, rows, fetched_at: new Date().toISOString() } };
+  return marketCache.data;
+}
+
+async function ensureCompetitor(us = DEFAULT_US) {
   const { rows } = await db.query(
     `insert into competitors (name, slug, sources) values ($1, $2, $3)
      on conflict (slug) do update set sources = excluded.sources returning *`,
-    [DEMO.name, DEMO.slug, JSON.stringify(DEMO.sources)]
+    [us, "market:" + us.toLowerCase(), JSON.stringify(MODELS.map((m) => ({ source: m, url: `https://openrouter.ai/${m}/providers` })))]
   );
   return rows[0];
 }
@@ -38,10 +51,8 @@ const setStep = (id, step) => db.query("update sweeps set step = $2 where id = $
 async function runAgent(comp) {
   const tpl = fs.readFileSync(path.join(__dirname, "agent", "sweep-prompt.md"), "utf8");
   const prompt = tpl
-    .replaceAll("{{name}}", comp.name)
-    .replaceAll("{{slug}}", comp.slug)
-    .replaceAll("{{baseline}}", BASELINE)
-    .replaceAll("{{sources}}", comp.sources.map((s) => `- ${s.source}: ${s.url}`).join("\n"));
+    .replaceAll("{{us}}", comp.name)
+    .replaceAll("{{models}}", MODELS.join(", "));
   const res = await fetch(`https://${process.env.AGENT37_INSTANCE_ID}.agent37.app/v1/responses`, {
     method: "POST",
     headers: { "X-Agent37-Key": process.env.AGENT37_API_KEY, "Content-Type": "application/json" },
@@ -72,11 +83,11 @@ async function judge(comp, change) {
         {
           role: "system",
           content:
-            "You are a sharp sales-enablement lead. Given one verified change at a competitor, return JSON: " +
+            "You are the pricing and sales-enablement lead at an AI inference provider. Given one verified competitor finding, return JSON: " +
             '{"threat":"high|medium|low","slack":"a Slack message to the sales channel, max 3 short lines, starts with an emoji, ends with the evidence link",' +
-            '"battlecard":"one line to add to the battlecard: how to sell against this"}. Be concrete; no hype.',
+            '"battlecard":"one concrete recommended response: a price move, a sales talking point, or a deal to target"}. Be concrete; no hype.',
         },
-        { role: "user", content: JSON.stringify({ competitor: comp.name, ...change }) },
+        { role: "user", content: JSON.stringify({ we_are: comp.name, ...change }) },
       ],
     }),
     signal: AbortSignal.timeout(60000),
@@ -87,7 +98,7 @@ async function judge(comp, change) {
 }
 
 function fallbackSlack(comp, c) {
-  return `:rotating_light: ${comp.name}: ${c.what_changed}\nWhy it matters: ${c.why_it_matters}\n${c.evidence_url}`;
+  return `:rotating_light: Pricing alert for ${comp.name}: ${c.what_changed}\nWhy it matters: ${c.why_it_matters}\n${c.evidence_url}`;
 }
 
 async function sweep(sweepId, comp) {
@@ -117,8 +128,12 @@ async function sweep(sweepId, comp) {
   }
 }
 
+app.get("/api/market", async (req, res) => {
+  try { res.json(await market()); } catch (e) { res.status(502).json({ error: e.message }); }
+});
+
 app.post("/api/sweep", async (req, res) => {
-  const comp = await ensureCompetitor();
+  const comp = await ensureCompetitor(req.body?.us || DEFAULT_US);
   const running = await db.query("select id from sweeps where competitor_id = $1 and status = 'running' and started_at > now() - interval '20 minutes'", [comp.id]);
   if (running.rows.length) return res.json({ id: running.rows[0].id, already: true });
   const { rows } = await db.query("insert into sweeps (competitor_id, step) values ($1, 'start') returning id", [comp.id]);
@@ -127,7 +142,7 @@ app.post("/api/sweep", async (req, res) => {
 });
 
 app.get("/api/state", async (req, res) => {
-  const comp = await ensureCompetitor();
+  const comp = await ensureCompetitor(req.query.us || DEFAULT_US);
   const sweeps = (await db.query("select id, status, step, started_at, finished_at, sources_checked, error from sweeps where competitor_id = $1 order by id desc limit 10", [comp.id])).rows;
   const signals = (await db.query(
     `select s.*, coalesce(json_agg(a order by a.id) filter (where a.id is not null), '[]') as actions
